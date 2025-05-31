@@ -6,46 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Stream all episodes of Monsters at Work, the Disney+ animated series following the hilarious adventures of Tylor Tuskmon and his fellow monsters at Monsters, Inc.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            monsters: {
-              primary: '#00C7B7',
-              secondary: '#FF6B6B',
-              dark: '#1A1D2E',
-              light: '#F7FAFC',
-              purple: '#6E45E2',
-              teal: '#00C6B0',
-              yellow: '#FFD700',
-              green: '#2ECC71'
-            }
-          },
-          fontFamily: {
-            sans: ['Poppins', 'sans-serif'],
-            display: ['Rubik', 'sans-serif']
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'bounce-slow': 'bounce 2.5s infinite',
-            'wiggle': 'wiggle 1s ease-in-out infinite'
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-20px)' }
-            },
-            wiggle: {
-              '0%, 100%': { transform: 'rotate(-3deg)' },
-              '50%': { transform: 'rotate(3deg)' }
-            }
-          }
-        }
-      }
-    }
-  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -691,6 +651,13 @@
             Follow the hilarious adventures of Tylor Tuskmon and his fellow monsters at Monsters, Inc. as they navigate the challenges of making kids laugh in this Disney+ original series.
           </p>
           
+          <div class="flex flex-wrap gap-4">
+            <button class="btn-primary text-white font-bold py-3 px-8 rounded-full flex items-center">
+              <i class="fas fa-play mr-2"></i> WATCH NOW
+            </button>
+            <button class="btn-secondary text-white font-semibold py-3 px-8 rounded-full flex items-center">
+              <i class="fas fa-plus mr-2"></i> MY LIST
+            </button>
           </div>
         </div>
       </div>
@@ -847,11 +814,52 @@
             <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
+        <div>
       </div>
     </div>
   </footer>
 
   <script>
+    // Tailwind config
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            monsters: {
+              primary: '#00C7B7',
+              secondary: '#FF6B6B',
+              dark: '#1A1D2E',
+              light: '#F7FAFC',
+              purple: '#6E45E2',
+              teal: '#00C6B0',
+              yellow: '#FFD700',
+              green: '#2ECC71'
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            display: ['Rubik', 'sans-serif']
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'bounce-slow': 'bounce 2.5s infinite',
+            'wiggle': 'wiggle 1s ease-in-out infinite'
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' }
+            },
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-3deg)' },
+              '50%': { transform: 'rotate(3deg)' }
+            }
+          }
+        }
+      }
+    };
+
     // Episodes Data
     const episodes = {
       season1: [
@@ -1095,9 +1103,6 @@
     const episodeRating = document.getElementById('episode-rating');
     const episodeCast = document.getElementById('modal-cast');
     const playEpisodeBtn = document.getElementById('play-episode');
-    const galleryModal = document.getElementById('gallery-modal');
-    const galleryModalImage = document.getElementById('gallery-modal-image');
-    const closeGalleryModal = document.getElementById('close-gallery-modal');
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     
     // Enhanced Player Elements
@@ -1198,9 +1203,6 @@
       
       // Play episode button
       playEpisodeBtn.addEventListener('click', playEpisodeHandler);
-      
-      // Gallery modal close button
-      closeGalleryModal.addEventListener('click', closeGalleryModalHandler);
       
       // Mobile menu button
       mobileMenuButton.addEventListener('click', toggleMobileMenu);
@@ -1322,20 +1324,22 @@
       episodeRuntime.textContent = episode.runtime;
       episodeRating.textContent = episode.rating;
       episodeCast.textContent = episode.cast;
-      
-      // Set video source
+
       modalVideo.src = episode.video;
       modalVideo.poster = episode.image;
-      
-      // Show modal
+      modalVideo.load();
       playbackModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
-      
+
       // Reset player state
       resetPlayerState();
-      
-      // Focus the modal for keyboard controls
-      playbackModal.focus();
+
+      // Try to autoplay (may be blocked by browser)
+      modalVideo.play().catch(() => {
+        console.warn('Autoplay blocked. Please click Play.');
+      });
+
+      playbackModal.scrollIntoView({ behavior: 'smooth' });
     }
 
     // Reset player state when opening a new video
@@ -1372,10 +1376,20 @@
 
     // Play episode handler
     function playEpisodeHandler() {
-      modalVideo.play();
-      playIcon.classList.add('hidden');
-      pauseIcon.classList.remove('hidden');
-      playEpisodeBtn.innerHTML = '<i class="fas fa-pause mr-2"></i> PAUSE EPISODE';
+      if (modalVideo.paused) {
+        modalVideo.play().then(() => {
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          playEpisodeBtn.innerHTML = '<i class="fas fa-pause mr-2"></i> PAUSE EPISODE';
+        }).catch(() => {
+          alert('Playback blocked. Please click play on the video.');
+        });
+      } else {
+        modalVideo.pause();
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+        playEpisodeBtn.innerHTML = '<i class="fas fa-play mr-2"></i> PLAY EPISODE';
+      }
     }
 
     // Toggle play/pause
@@ -1493,12 +1507,6 @@
       } else {
         document.exitFullscreen();
       }
-    }
-
-    // Close gallery modal
-    function closeGalleryModalHandler() {
-      galleryModal.classList.add('hidden');
-      document.body.style.overflow = '';
     }
 
     // Toggle mobile menu
