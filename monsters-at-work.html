@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Monsters at Work | Disney+</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stream all episodes of Monsters at Work, the Disney+ animated series following the hilarious adventures of Tylor Tuskmon and his fellow monsters at Monsters, Inc.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            monsters: {
+              primary: '#00C7B7',
+              secondary: '#FF6B6B',
+              dark: '#1A1D2E',
+              light: '#F7FAFC',
+              purple: '#6E45E2',
+              teal: '#00C6B0',
+              yellow: '#FFD700',
+              green: '#2ECC71'
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            display: ['Rubik', 'sans-serif']
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'bounce-slow': 'bounce 2.5s infinite',
+            'wiggle': 'wiggle 1s ease-in-out infinite'
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' }
+            },
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-3deg)' },
+              '50%': { transform: 'rotate(3deg)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Rubik:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    .gradient-text {
+      background: linear-gradient(90deg, #00C7B7 0%, #FFD700 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #00C7B7 0%, #6E45E2 100%);
+    }
+    
+    .video-header {
+      position: relative;
+      height: 90vh;
+      min-height: 700px;
+      overflow: hidden;
+    }
+    
+    .video-header video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: 0;
+      object-fit: cover;
+    }
+    
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(26,29,46,0.9) 0%, rgba(26,29,46,0.3) 100%);
+      z-index: 1;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .episode-card {
+      transition: all 0.3s ease;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    
+    .episode-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    .episode-card:hover .episode-image {
+      transform: scale(1.08);
+    }
+    
+    .episode-image-container {
+      overflow: hidden;
+      border-radius: 12px 12px 0 0;
+      position: relative;
+    }
+    
+    .episode-image {
+      transition: transform 0.5s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+    }
+    
+    .play-icon {
+      transition: all 0.3s ease;
+      box-shadow: 0 0 30px rgba(0, 199, 183, 0.7);
+    }
+    
+    .episode-card:hover .play-icon {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    
+    .modal-enter {
+      animation: modalEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    @keyframes modalEnter {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    
+    .disney-logo {
+      width: 120px;
+      filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+      transition: transform 0.3s ease;
+    }
+    
+    .disney-logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .nav-container {
+      background: linear-gradient(to bottom, rgba(26,29,46,0.9) 0%, rgba(26,29,46,0) 100%);
+      backdrop-filter: blur(5px);
+    }
+    
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: -5px;
+      left: 0;
+      background: #00C7B7;
+      transition: width 0.3s ease;
+      border-radius: 3px;
+    }
+    
+    .nav-link:hover:after {
+      width: 100%;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(90deg, #00C7B7 0%, #FFD700 100%);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 199, 183, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 199, 183, 0.6);
+    }
+    
+    .btn-secondary {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .episode-badge {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      border-radius: 12px;
+    }
+    
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+      }
+      40% {
+        transform: translateY(-20px) translateX(-50%);
+      }
+      60% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+    }
+    
+    .character-card {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .character-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .section-title {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title:after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 4px;
+      bottom: -8px;
+      left: 0;
+      background: linear-gradient(90deg, #00C7B7 0%, #FFD700 100%);
+      border-radius: 4px;
+    }
+    
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .footer-link {
+      transition: all 0.2s ease;
+    }
+    
+    .footer-link:hover {
+      color: #00C7B7;
+      transform: translateX(5px);
+    }
+    
+    .character-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .pulse-animation {
+      animation: pulse-slow 3s infinite;
+    }
+    
+    .bounce-animation {
+      animation: bounce-slow 2.5s infinite;
+    }
+    
+    .wiggle-animation {
+      animation: wiggle 1s ease-in-out infinite;
+    }
+    
+    .parallax-bg {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    
+    .carousel-item {
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+    
+    .carousel-item.active {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 10;
+    }
+    
+    .carousel-item.next,
+    .carousel-item.prev {
+      opacity: 0.5;
+      transform: scale(0.9);
+      z-index: 5;
+    }
+    
+    .carousel-item.hidden {
+      opacity: 0;
+      transform: scale(0.8);
+      z-index: 1;
+    }
+    
+    .carousel-nav-dot {
+      transition: all 0.3s ease;
+    }
+    
+    .carousel-nav-dot.active {
+      background-color: #00C7B7;
+      transform: scale(1.2);
+    }
+    
+    .carousel-nav-dot:hover {
+      background-color: #FFD700;
+    }
+    
+    .monster-logo {
+      filter: drop-shadow(0 0 15px rgba(0, 199, 183, 0.5));
+    }
+    
+    .energy-ball {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,199,183,0.8) 0%, rgba(0,199,183,0) 70%);
+      filter: blur(20px);
+      animation: pulse-slow 3s infinite;
+      z-index: -1;
+    }
+    
+    .energy-ball-1 {
+      top: 20%;
+      left: 10%;
+    }
+    
+    .energy-ball-2 {
+      bottom: 15%;
+      right: 10%;
+      animation-delay: 1s;
+    }
+    
+    .door-animation {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .door-animation:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(0,199,183,0.2) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    
+    .door-animation:hover:before {
+      transform: translateX(100%);
+    }
+    
+    @media (max-width: 768px) {
+      .video-header {
+        height: 80vh;
+        min-height: 600px;
+      }
+      
+      .header-content h1 {
+        font-size: 3.5rem;
+      }
+      
+      .carousel-item {
+        min-width: 100%;
+      }
+      
+      .energy-ball {
+        width: 150px;
+        height: 150px;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .video-header {
+        height: 70vh;
+        min-height: 500px;
+      }
+      
+      .header-content h1 {
+        font-size: 2.5rem;
+      }
+      
+      .energy-ball {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-monsters-dark text-monsters-light font-sans">
+  <!-- Energy Balls Background Effect -->
+  <div class="energy-ball energy-ball-1"></div>
+  <div class="energy-ball energy-ball-2"></div>
+  
+  <!-- Video Header -->
+  <div class="video-header">
+    <video autoplay muted loop playsinline poster="https://lumiere-a.akamaihd.net/v1/images/p_monstersatwork_21543_2f4d1b8a.jpeg">
+      <source src="https://imdb-video.media-imdb.com/vi2435104793/1434659607842-pgv4ql-1623513882835.mp4?Expires=1748811356&Signature=RcboODPbkV1ZmpFfYsR-EofKMuCFm7uXHtWk4Znm3YkAR204eROKULDJMbgW~SzMTRXyuNxRC9BW0Vd~9uvzcKKsIu2Z-x6ZEIWyv1OfSh5icx2pmoKcOphDyDIzvzDf122mJQPk0euxmWpTEUfvInzjwhcz5Sc4~K3sdNZmU-FDztIBGVlKY5ansSyvFcIAUyMYbwyJ2Y2uKlhBCT5rDEOSORzARzvIms11HzgI~WEWguegHL6aldwbUBEp7fZQiKeJ67K0bEO5sKpTbfuc2IOxTpP-gquG-hYiYFqse05cyYRp5AXLQoujKV5zXV5UdiNFuLeSDqPX~CjCU0ISTg__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+    
+    <div class="header-content">
+      <!-- Navigation -->
+      <div class="nav-container py-5 px-6 lg:px-12">
+        <div class="container mx-auto flex justify-between items-center">
+          <div class="flex items-center space-x-4">
+            <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="disney-logo h-10">
+          </div>
+
+          
+
+          <button class="md:hidden text-2xl text-white focus:outline-none" id="mobile-menu-button">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Title Content -->
+      <div class="container mx-auto px-4 lg:px-12 flex-1 flex items-center">
+        <div class="max-w-4xl">
+          <div class="flex items-center mb-4">
+            <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="h-8 mr-4">
+            <span class="text-white font-semibold tracking-wider">ORIGINAL SERIES</span>
+          </div>
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 gradient-text font-display tracking-tight leading-tight">MONSTERS <span class="text-white">AT WORK</span></h1>
+          <div class="flex flex-wrap items-center gap-4 mb-6">
+            <span class="bg-monsters-primary text-black px-4 py-1 rounded-full text-sm font-bold">NEW EPISODES</span>
+            <span class="text-gray-300">2021 - PRESENT</span>
+            <span class="text-gray-300">•</span>
+            <span class="text-gray-300">2 SEASONS</span>
+            <span class="text-gray-300">•</span>
+            <span class="text-gray-300">TV-G</span>
+          </div>
+          <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
+            Follow the hilarious adventures of Tylor Tuskmon and his fellow monsters at Monsters, Inc. as they navigate the challenges of making kids laugh in this Disney+ original series.
+          </p>
+          
+          </div>
+        </div>
+      </div>
+      
+      <div class="scroll-indicator">
+        <i class="fas fa-chevron-down text-white text-3xl animate-bounce"></i>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Episodes Section -->
+  <section id="episodes" class="py-20 bg-monsters-dark">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-white section-title">EPISODES</h2>
+        <div class="flex items-center space-x-2">
+          <span class="text-gray-400">SEASON</span>
+          <div class="relative">
+            <select id="season-selector" class="bg-monsters-dark border border-gray-700 text-white rounded-full px-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-monsters-primary">
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <i class="fas fa-chevron-down text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="season-1" class="episodes-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Season 1 episodes will be added here by JavaScript -->
+      </div>
+      
+      <div id="season-2" class="episodes-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+        <!-- Season 2 episodes will be added here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  
+
+  
+
+  <!-- Modal -->
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90 p-4">
+    <div class="relative w-full max-w-4xl bg-monsters-dark rounded-xl overflow-hidden shadow-2xl modal-enter border border-monsters-primary/30">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-monsters-primary text-2xl transition bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="aspect-w-16 aspect-h-9">
+        <video id="modal-video" class="w-full" controls poster="https://lumiere-a.akamaihd.net/v1/images/p_monstersatwork_21543_2f4d1b8a.jpeg">
+          Your browser does not support the video element.
+        </video>
+      </div>
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 id="modal-title" class="text-2xl font-bold mb-1 text-white"></h3>
+            <div class="text-gray-400 text-sm">
+              <span>S<span id="season-num"></span> • E<span id="episode-num"></span></span> • <span id="episode-runtime"></span> • <span class="text-yellow-400">★ <span id="episode-rating"></span></span>
+            </div>
+          </div>
+          <div class="flex space-x-3">
+            <button class="text-gray-400 hover:text-white transition">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="text-gray-400 hover:text-white transition">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+          </div>
+        </div>
+        <p id="modal-description" class="text-gray-300 mb-6"></p>
+        <div class="flex flex-wrap gap-4">
+          <button id="play-episode" class="btn-primary text-white font-bold py-3 px-8 rounded-full flex items-center transition">
+            <i class="fas fa-play mr-2"></i> PLAY EPISODE
+          </button>
+          <button class="btn-secondary text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
+            <i class="fas fa-plus mr-2"></i> ADD TO WATCHLIST
+          </button>
+        </div>
+        <div class="mt-6 pt-6 border-t border-gray-800">
+          <h4 class="text-sm font-semibold text-gray-400 mb-2">STARRING</h4>
+          <p class="text-gray-300 text-sm" id="modal-cast"></p>
+          <h4 class="text-sm font-semibold text-gray-400 mt-4 mb-2">DIRECTED BY</h4>
+          <p class="text-gray-300 text-sm" id="modal-director">Bobs Gannaway</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery Modal -->
+  <div id="gallery-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90 p-4">
+    <div class="relative w-full max-w-6xl">
+      <button id="close-gallery-modal" class="absolute -top-12 right-0 z-50 text-white hover:text-monsters-primary text-3xl transition">
+        <i class="fas fa-times"></i>
+      </button>
+      <img id="gallery-modal-image" src="" alt="" class="w-full max-h-screen object-contain">
+    </div>
+  </div>
+
+  <footer class="bg-monsters-dark py-16 border-t border-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div>
+          <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="h-10 mb-6">
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+         
+        </div>
+        <div>
+          
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Episodes Data
+    const episodes = {
+      season1: [
+        { 
+          title: "Welcome to Monsters, Inc.", 
+          year: 2021,
+          video: "https://macdn.hakunaymatata.com/resource/0338521f2d4153e4300bda7ef710ecee.mp4?Expires=1749928480&Signature=hGs-FTdCRQe8Ub4rbH4fpzo7WDj704AfS~6HC~n75zIp7Eb-PaFFSXC3TC98gmZ6kjFuSlE62N6uyyyMf-ywNp~JYlD3378YSpwlb~rK-rjyZExzSm3x7UkPFF8LBrhctVhVlRaaZKAaqgqeGBPmMSlNpNNWlo7LwCgeM6KsUIKs8aoMzkL~YzOs~29vfsVDSLxnyRH5UzndVm2ed0dkChs4oGD03xV4c-kH2Kn~AUWkFSYM9wBHgrFtfMCGHyVV8HvLM~8nhdIhqvztXbVhmqiz1hneTuF-NkF-Fw8rSDU5-~xhHIRBPtxK7ScXIr9wIJcD~w~W3CDIxj0HwZvxUQ__&Key-Pair-Id=KMHN1LQ1HEUPL",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1212/1031212-h-1d97c7f4eb4d",
+          runtime: "25 min",
+          rating: "8.5/10",
+          description: "Tylor Tuskmon arrives for his first day at Monsters, Inc., only to discover the company has switched from scaring to laughing.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "Meet MIFT", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1195/1031195-h-facd8990dad3",
+          runtime: "22 min",
+          rating: "8.2/10",
+          description: "When Tylor is initiated into MIFT during a bizarre ritual, he wants nothing more than to get away from his odd coworkers. But when an emergency strikes, MIFT kicks into action and Tylor develops a hint of respect for the misfit team.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Damaged Room", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/3414/1033414-h-b77c35a6cd09",
+          runtime: "24 min",
+          rating: "8.0/10",
+          description: "When a human baby's room is damaged by a Jokester, Tylor has his first experience working with MIFT on the repairs. While the room is repaired, Mike and Sulley must take care of a human baby.",
+          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Big Wazowskis", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5851/1035851-h-7e153999a35f",
+          runtime: "23 min",
+          rating: "8.3/10",
+          description: "Hoping to get in good with Mike, Tylor signs MIFT up to be Mike's bowling team for the annual Monsters, Inc. Bowl-off-a-thon - only to discover that everyone at MIFT stinks at bowling.",
+          cast: "Ben Feldman, John Goodman, Mindy Kaling",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Cover Up", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/7259/1037259-h-9ed6400e949d",
+          runtime: "25 min",
+          rating: "8.1/10",
+          description: "Tylor and Duncan accidentally cause a city-wide power outage and must do all they can to cover up from an inspector.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Vending Machine", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/9136/1039136-h-ffdc56bd6a4c",
+          runtime: "26 min",
+          rating: "8.7/10",
+          description: "Tylor's job is threatened when he breaks MIFT's favorite vending machine on the day Fritz must fire someone due to budget cuts. Meanwhile Mike tries boosting morale at Monsters, Inc.",
+          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "Adorable Returns", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1553/1041553-h-b046bae8f7b4",
+          runtime: "24 min",
+          rating: "8.4/10",
+          description: "Tylor mistakenly allows the banished Adorable Snowman to return to Monsters, Inc. Fearing he'll also be banished, Tylor struggles to get him back before he's discovered. Val searches for the secret as to why the Yeti was banished.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "Little Monsters", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/3435/1043435-h-b7b896e22979",
+          runtime: "27 min",
+          rating: "9.0/10",
+          description: "Tylor sees an opportunity to get promoted as Jokester during Mini-Monster Day at Monsters, Inc. when he is paired with Ms. Flint's daughter. Can he get her to laugh?",
+          cast: "Ben Feldman, Steve Buscemi, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "Bad Hair Day", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/7015/1047015-h-aded01e434e4",
+          runtime: "25 min",
+          rating: "8.6/10",
+          description: "Abandoning his dream of becoming a Jokester, Tylor sets his sights on becoming the perfect MIFTer. But when he loses the sacred hair of David, a former employee, Tylor must get it back before the MIFT team finds out.",
+          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "It's Laughter They're After", 
+          year: 2021,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/9925/1049925-h-f88d28dda36c",
+          runtime: "28 min",
+          rating: "9.2/10",
+          description: "Tylor feels torn about leaving MIFT when he's promoted to Jokester. Mike and Sulley must generate more laugh power to save the factory from being shut down.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        }
+      ],
+      season2: [
+        { 
+          title: "Back to Work", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/3/3f/Monsters_At_Work_S2_E1.jpg",
+          runtime: "26 min",
+          rating: "8.7/10",
+          description: "Tylor returns from vacation to find Monsters, Inc. has implemented some surprising new changes.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The New Recruit", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/5/5f/Monsters_At_Work_S2_E2.jpg",
+          runtime: "24 min",
+          rating: "8.5/10",
+          description: "Tylor is assigned to mentor a new recruit, but the eager young monster has some unconventional ideas.",
+          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Competition", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/0/0e/Monsters_At_Work_S2_E3.jpg",
+          runtime: "25 min",
+          rating: "8.8/10",
+          description: "Monsters, Inc. faces competition from a new laugh-collecting company with questionable methods.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Secret Door", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/2/2b/Monsters_At_Work_S2_E4.jpg",
+          runtime: "27 min",
+          rating: "9.1/10",
+          description: "Tylor and Val discover a mysterious door in the basement that leads to unexpected adventures.",
+          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Monster Games", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/5/5e/Monsters_At_Work_S2_E5.jpg",
+          runtime: "26 min",
+          rating: "8.9/10",
+          description: "Monsters, Inc. hosts an interdepartmental competition with outrageous challenges and hilarious results.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Laugh Heist", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/7/7c/Monsters_At_Work_S2_E6.jpg",
+          runtime: "28 min",
+          rating: "9.3/10",
+          description: "When someone steals the company's entire laugh supply, Tylor and the team must track down the culprit.",
+          cast: "Ben Feldman, Steve Buscemi, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Monster Convention", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/3/3c/Monsters_At_Work_S2_E7.jpg",
+          runtime: "25 min",
+          rating: "8.6/10",
+          description: "The team attends a monster convention where they encounter old friends and unexpected rivals.",
+          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Big Interview", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/5/5b/Monsters_At_Work_S2_E8.jpg",
+          runtime: "24 min",
+          rating: "8.4/10",
+          description: "A reporter comes to Monsters, Inc. to interview the team, but the article doesn't go as planned.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Monster Swap", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/3/3b/Monsters_At_Work_S2_E9.jpg",
+          runtime: "27 min",
+          rating: "9.0/10",
+          description: "A magical accident causes Tylor and Mike to switch bodies, leading to hilarious identity confusion.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        },
+        { 
+          title: "The Future of Laughs", 
+          year: 2023,
+          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          image: "https://static.wikia.nocookie.net/disney/images/3/3a/Monsters_At_Work_S2_E10.jpg",
+          runtime: "30 min",
+          rating: "9.5/10",
+          description: "The season finale reveals a shocking new direction for Monsters, Inc. that will change everything.",
+          cast: "Ben Feldman, Billy Crystal, John Goodman",
+          director: "Bobs Gannaway"
+        }
+      ]
+    };
+
+    
+
+    // DOM Elements
+    const season1Container = document.getElementById('season-1');
+    const season2Container = document.getElementById('season-2');
+    const seasonSelector = document.getElementById('season-selector');
+    const playbackModal = document.getElementById('playback-modal');
+    const closeModal = document.getElementById('close-modal');
+    const modalVideo = document.getElementById('modal-video');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const seasonNum = document.getElementById('season-num');
+    const episodeNum = document.getElementById('episode-num');
+    const episodeRuntime = document.getElementById('episode-runtime');
+    const episodeRating = document.getElementById('episode-rating');
+    const episodeCast = document.getElementById('modal-cast');
+    const playEpisodeBtn = document.getElementById('play-episode');
+    const galleryModal = document.getElementById('gallery-modal');
+    const galleryModalImage = document.getElementById('gallery-modal-image');
+    const closeGalleryModal = document.getElementById('close-gallery-modal');
+    const charactersCarousel = document.getElementById('characters-carousel');
+    const carouselPrev = document.getElementById('carousel-prev');
+    const carouselNext = document.getElementById('carousel-next');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Render episodes
+      renderEpisodes();
+      
+      // Render characters
+      renderCharacters();
+      
+      // Set up event listeners
+      setupEventListeners();
+      
+      // Set up gallery click handlers
+      setupGallery();
+    });
+
+    // Render episodes for both seasons
+    function renderEpisodes() {
+      // Season 1
+      episodes.season1.forEach((episode, index) => {
+        const card = createEpisodeCard(episode, 1, index + 1);
+        season1Container.appendChild(card);
+      });
+      
+      // Season 2
+      episodes.season2.forEach((episode, index) => {
+        const card = createEpisodeCard(episode, 2, index + 1);
+        season2Container.appendChild(card);
+      });
+    }
+
+    // Create an episode card element
+    function createEpisodeCard(episode, season, episodeNumber) {
+      const card = document.createElement('div');
+      card.className = 'episode-card bg-monsters-dark/50 rounded-xl overflow-hidden hover:shadow-lg transition duration-300 border border-gray-800 hover:border-monsters-primary/50 cursor-pointer';
+      card.innerHTML = `
+        <div class="episode-image-container relative">
+          <img src="${episode.image}" alt="${episode.title}" class="episode-image w-full h-48 md:h-56 object-cover">
+          <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+            <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-monsters-primary rounded-full w-14 h-14 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+              <i class="fas fa-play text-white text-xl"></i>
+            </div>
+          </div>
+          <span class="absolute top-3 right-3 episode-badge text-white text-xs px-3 py-1 font-medium">${episode.runtime}</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start mb-2">
+            <h2 class="font-bold text-lg text-white">${episode.title}</h2>
+            <span class="text-yellow-400 text-sm font-medium">${episode.rating}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-gray-400">S${season} • E${episodeNumber} • ${episode.year}</p>
+            <button class="text-gray-400 hover:text-monsters-primary transition">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      
+      card.addEventListener('click', () => {
+        openModal(episode, season, episodeNumber);
+      });
+      
+      return card;
+    }
+
+    // Render characters in the carousel
+    function renderCharacters() {
+      characters.forEach(character => {
+        const card = document.createElement('div');
+        card.className = 'character-card rounded-xl overflow-hidden p-6 flex flex-col items-center text-center';
+        card.innerHTML = `
+          <div class="w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-monsters-primary">
+            <img src="${character.image}" alt="${character.name}" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">${character.name}</h3>
+          <span class="text-monsters-primary text-sm font-medium mb-2">${character.role}</span>
+          <p class="text-gray-400 text-sm">${character.description}</p>
+        `;
+        charactersCarousel.appendChild(card);
+      });
+    }
+
+    // Set up all event listeners
+    function setupEventListeners() {
+      // Season selector
+      seasonSelector.addEventListener('change', function() {
+        if (this.value === '1') {
+          season1Container.classList.remove('hidden');
+          season2Container.classList.add('hidden');
+        } else {
+          season1Container.classList.add('hidden');
+          season2Container.classList.remove('hidden');
+        }
+      });
+      
+      // Modal close button
+      closeModal.addEventListener('click', closeModalHandler);
+      
+      // Play episode button
+      playEpisodeBtn.addEventListener('click', playEpisodeHandler);
+      
+      // Gallery modal close button
+      closeGalleryModal.addEventListener('click', closeGalleryModalHandler);
+      
+      // Mobile menu button
+      mobileMenuButton.addEventListener('click', toggleMobileMenu);
+      
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    }
+
+    // Set up gallery click handlers
+    function setupGallery() {
+      galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const imgSrc = this.querySelector('img').src;
+          openGalleryModal(imgSrc);
+        });
+      });
+    }
+
+    // Open the episode modal
+    function openModal(episode, season, episodeNumber) {
+      modalTitle.textContent = episode.title;
+      modalDescription.textContent = episode.description;
+      seasonNum.textContent = season;
+      episodeNum.textContent = episodeNumber;
+      episodeRuntime.textContent = episode.runtime;
+      episodeRating.textContent = episode.rating;
+      episodeCast.textContent = episode.cast;
+      
+      // Set video source
+      modalVideo.src = episode.video;
+      modalVideo.poster = episode.image;
+      
+      // Show modal
+      playbackModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close the episode modal
+    function closeModalHandler() {
+      // Pause video when closing modal
+      modalVideo.pause();
+      playbackModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Play episode handler
+    function playEpisodeHandler() {
+      modalVideo.play();
+      playEpisodeBtn.innerHTML = '<i class="fas fa-pause mr-2"></i> PAUSE EPISODE';
+      playEpisodeBtn.removeEventListener('click', playEpisodeHandler);
+      playEpisodeBtn.addEventListener('click', pauseEpisodeHandler);
+    }
+
+    // Pause episode handler
+    function pauseEpisodeHandler() {
+      modalVideo.pause();
+      playEpisodeBtn.innerHTML = '<i class="fas fa-play mr-2"></i> PLAY EPISODE';
+      playEpisodeBtn.removeEventListener('click', pauseEpisodeHandler);
+      playEpisodeBtn.addEventListener('click', playEpisodeHandler);
+    }
+
+    // Open gallery modal
+    function openGalleryModal(imgSrc) {
+      galleryModalImage.src = imgSrc;
+      galleryModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close gallery modal
+    function closeGalleryModalHandler() {
+      galleryModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      // This would be implemented based on your mobile menu design
+      alert('Mobile menu would open here in a full implementation');
+    }
+  </script>
+</body>
+</html>
