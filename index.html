@@ -10,44 +10,52 @@
     tailwind.config = {
       theme: {
         extend: {
-          animation: {
-            'float': 'float 3s ease-in-out infinite',
-            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-10px)' },
+          colors: {
+            pixar: {
+              blue: '#1D4ED8',
+              yellow: '#FACC15',
+              red: '#DC2626',
+              green: '#16A34A',
+              purple: '#7E22CE'
             }
+          },
+          fontFamily: {
+            'display': ['"Pixar"', 'sans-serif'],
+            'sans': ['"Pixar Sans"', 'Arial', 'sans-serif']
           }
         }
       }
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
     
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
       color: white;
       min-height: 100vh;
-      padding: 2rem;
+    }
+    
+    .pixar-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
     
     .card {
       background: rgba(255, 255, 255, 0.08);
       border-radius: 1.5rem;
       overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
     }
     
     .card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
       background: rgba(255, 255, 255, 0.12);
     }
     
@@ -55,7 +63,6 @@
       width: 100%;
       height: 300px;
       object-fit: cover;
-      object-position: center;
       transition: transform 0.5s ease;
     }
     
@@ -63,138 +70,240 @@
       transform: scale(1.05);
     }
     
-    .disney-logo {
-      filter: drop-shadow(0 0 10px rgba(0, 119, 255, 0.5));
+    .card-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      z-index: 10;
     }
     
-    .disney-plus-badge {
-      background: linear-gradient(90deg, #0063e5 0%, #0083ff 100%);
+    .card-content {
+      position: relative;
+      z-index: 5;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+      padding-top: 2rem;
+      margin-top: -2rem;
     }
     
-    .glow-text {
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    .nav-link {
+      position: relative;
     }
     
-    .bg-pattern {
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .hero {
+      background: url('https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg') no-repeat center center;
+      background-size: cover;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-      background-size: 20px 20px;
-      z-index: -1;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to right, rgba(15, 12, 41, 0.9) 0%, rgba(48, 43, 99, 0.7) 100%);
+    }
+    
+    .footer {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .social-icon {
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      transform: translateY(-3px) scale(1.1);
+    }
+    
+    @media (max-width: 768px) {
+      .card-img {
+        height: 200px;
+      }
     }
   </style>
 </head>
-<body>
-  <div class="bg-pattern"></div>
-  <div class="max-w-7xl mx-auto">
-    <div class="flex items-center justify-center mb-6">
-      <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="h-12 disney-logo">
-    </div>
-    
-    <h1 class="text-5xl font-bold mb-2 text-center glow-text">
-      <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-        Disney+ Originals
-      </span>
-    </h1>
-    <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto">
-      Exclusive animated series from the magical world of Disney
-    </p>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-      <!-- Zootopia+ Card -->
-      <a href="zootopia+.html" class="card block text-white relative group">
-        <div class="overflow-hidden">
-          <img 
-            src="https://assets.telegraphindia.com/telegraph/2022/Nov/1667999651_watch.jpg" 
-            alt="Zootopia+" 
-            class="card-img"
-          >
-        </div>
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-2xl font-bold">Zootopia+</h2>
-            <span class="disney-plus-badge text-xs font-bold px-3 py-1 rounded-full">
-              <i class="fas fa-star mr-1"></i> Disney+
-            </span>
-          </div>
-          <p class="text-gray-300 mb-4">
-            The series dives deeper into the lives of some of Zootopia's most intriguing residents, 
-            including Fru Fru, the fashion-forward arctic shrew; Gazelle's talented tiger dancers; 
-            and the sloth who works at the DMV.
-          </p>
-          <div class="flex items-center text-sm text-blue-300">
-            <span class="mr-4"><i class="fas fa-calendar-alt mr-1"></i> 2022</span>
-            <span><i class="fas fa-play-circle mr-1"></i> 8 Episodes</span>
-          </div>
-        </div>
-        <div class="absolute top-4 right-4 bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold transform group-hover:scale-110 transition-transform">
-          NEW
-        </div>
-      </a>
+<body class="flex flex-col">
+  <!-- Navigation -->
+  <header class="py-4 px-6 md:px-12 lg:px-24 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm sticky top-0 z-50">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-film text-pixar-yellow text-2xl"></i>
+        <span class="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg">Disney+ </span>
+      </div>
       
-      <!-- Monsters at Work Card -->
-      <a href="monsters-at-work.html" class="card block text-white relative group">
-        <div class="overflow-hidden">
-          <img 
-            src="https://resizing.flixster.com/seFNQQQEj4A4mrUS4-c3pjFqXl0=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p18052839_b_h8_ar.jpg" 
-            alt="Monsters at Work" 
-            class="card-img"
-          >
-        </div>
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-2xl font-bold">Monsters at Work</h2>
-            <span class="disney-plus-badge text-xs font-bold px-3 py-1 rounded-full">
-              <i class="fas fa-star mr-1"></i> Disney+
-            </span>
-          </div>
-          <p class="text-gray-300 mb-4">
-            The series picks up six months after the events of Monsters, Inc. and follows Tylor Tuskmon, 
-            an eager young monster who dreams of becoming a top Scarer alongside his idols Mike and Sulley.
-          </p>
-          <div class="flex items-center text-sm text-blue-300">
-            <span class="mr-4"><i class="fas fa-calendar-alt mr-1"></i> 2021</span>
-            <span><i class="fas fa-play-circle mr-1"></i> 10 Episodes</span>
-          </div>
-        </div>
-        <div class="absolute top-4 right-4 flex items-center">
-          <span class="bg-green-500 text-black px-2 py-1 rounded text-xs font-bold mr-2 transform group-hover:scale-110 transition-transform">
-            POPULAR
-          </span>
-          <span class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold transform group-hover:scale-110 transition-transform">
-            <i class="fas fa-heart"></i>
-          </span>
-        </div>
-      </a>
+      <button class="md:hidden text-white">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
     </div>
-    
-    <div class="mt-16 text-center">
-      <h3 class="text-xl font-semibold mb-4">More Disney+ Originals Coming Soon</h3>
-      <div class="flex justify-center space-x-4">
-        <div class="w-16 h-16 rounded-full bg-blue-900 flex items-center justify-center text-2xl animate-float">
-          <i class="fas fa-magic"></i>
-        </div>
-        <div class="w-16 h-16 rounded-full bg-purple-900 flex items-center justify-center text-2xl animate-float" style="animation-delay: 0.5s">
-          <i class="fas fa-film"></i>
-        </div>
-        <div class="w-16 h-16 rounded-full bg-pink-900 flex items-center justify-center text-2xl animate-float" style="animation-delay: 1s">
-          <i class="fas fa-music"></i>
-        </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero py-20 px-6 md:px-12 lg:px-24 relative">
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+
       </div>
     </div>
-  </div>
-  
-  <footer class="mt-20 text-center text-gray-400 text-sm">
-    <p>© 2023 Disney+ All Rights Reserved</p>
-    <div class="flex justify-center space-x-4 mt-2">
-      <a href="#" class="hover:text-white transition"><i class="fab fa-facebook"></i></a>
-      <a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
-      <a href="#" class="hover:text-white transition"><i class="fab fa-youtube"></i></a>
+  </section>
+
+
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Zootopia+ Card -->
+        <a href="zootopia+.html" class="card block text-white group">
+          <div class="overflow-hidden">
+            <img src="https://assets.telegraphindia.com/telegraph/2022/Nov/1667999651_watch.jpg" alt="Zootopia+" class="card-img">
+          </div>
+          <div class="card-content p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-2xl font-bold group-hover:text-pixar-yellow transition-colors">Zootopia+</h3>
+              <div class="flex items-center text-pixar-yellow">
+                <i class="fas fa-star"></i>
+                <span class="ml-1">8.7</span>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-4">The series dives deeper into the lives of some of Zootopia's most intriguing residents, 
+            including Fru Fru, the fashion-forward arctic shrew; Gazelle's talented tiger dancers; 
+            and the sloth who works at the DMV.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs bg-pixar-blue bg-opacity-30 px-2 py-1 rounded">Comedy</span>
+              <span class="text-xs bg-pixar-green bg-opacity-30 px-2 py-1 rounded">Sports</span>
+              <span class="text-xs bg-pixar-purple bg-opacity-30 px-2 py-1 rounded">Animation</span>
+            </div>
+          </div>
+          <span class="card-badge">New Episode</span>
+        </a>
+
+        <!-- Monsters at Work Card -->
+        <a href="monsters-at-work.html" class="card block text-white group">
+          <div class="overflow-hidden">
+            <img src="https://resizing.flixster.com/seFNQQQEj4A4mrUS4-c3pjFqXl0=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p18052839_b_h8_ar.jpg" alt="Monsters at Work" class="card-img">
+          </div>
+          <div class="card-content p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-2xl font-bold group-hover:text-pixar-red transition-colors">Monsters at Work</h3>
+              <div class="flex items-center text-pixar-yellow">
+                <i class="fas fa-star"></i>
+                <span class="ml-1">9.2</span>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-4">The series picks up six months after the events of Monsters, Inc. and follows Tylor Tuskmon, 
+            an eager young monster who dreams of becoming a top Scarer alongside his idols Mike and Sulley.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs bg-pixar-red bg-opacity-30 px-2 py-1 rounded">Emotional</span>
+              <span class="text-xs bg-pixar-purple bg-opacity-30 px-2 py-1 rounded">Animation</span>
+              <span class="text-xs bg-pixar-blue bg-opacity-30 px-2 py-1 rounded">Adventure</span>
+            </div>
+          </div>
+          <span class="card-badge">New Episode</span>
+        </a>
+
+        <!-- Dug Days Card -->
+        <a href="dug-days.html" class="card block text-white group">
+          <div class="overflow-hidden">
+            <img src="https://www.cinechat.co.uk/wp-content/uploads/2021/09/Dug-Days-Review-1024x576.jpg" alt="Dug Days" class="card-img">
+          </div>
+          <div class="card-content p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-2xl font-bold group-hover:text-pixar-blue transition-colors">Dug Days</h3>
+              <div class="flex items-center text-pixar-yellow">
+                <i class="fas fa-star"></i>
+                <span class="ml-1">8.5</span>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-4">The adventures of Dug, the dog from the movie 'Up,' as he discovers the dangers of suburbia.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs bg-pixar-red bg-opacity-30 px-2 py-1 rounded">Family</span>
+              <span class="text-xs bg-pixar-blue bg-opacity-30 px-2 py-1 rounded">Animation</span>
+              <span class="text-xs bg-pixar-green bg-opacity-30 px-2 py-1 rounded">Comedy</span>
+            </div>
+          </div>
+          <span class="card-badge">New Episode</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+
+
+  <!-- Footer -->
+  <footer class="footer py-12 px-6 md:px-12 lg:px-24">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center space-x-2 mb-4">
+          <i class="fas fa-film text-pixar-yellow text-2xl"></i>
+          <span class="pixar-logo text-2xl font-bold bg-gradient-to-r from-pixar-yellow to-pixar-red bg-clip-text text-transparent">Disney+</span>
+        </div>
+        
+        <div class="flex space-x-4 mt-4">
+          <a href="#" class="social-icon text-white text-xl"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-icon text-white text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon text-white text-xl"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon text-white text-xl"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        
+    
+    
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto pt-8 mt-8 border-t border-gray-700 text-center text-gray-400">
+      <p>&copy; Disney+ Productions. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    // Simple animation for cards when they come into view
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.card');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
+      });
+      
+      // Mobile menu toggle would go here
+      const mobileMenuButton = document.querySelector('button[class*="md:hidden"]');
+      mobileMenuButton.addEventListener('click', function() {
+        // Implementation for mobile menu toggle
+        console.log('Mobile menu would toggle here');
+      });
+    });
+  </script>
 </body>
 </html>
