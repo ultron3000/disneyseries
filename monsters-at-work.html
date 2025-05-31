@@ -546,6 +546,54 @@
       display: none;
     }
     
+    /* External Player Container */
+    .external-player-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 100;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .external-player-wrapper {
+      width: 90%;
+      max-width: 1200px;
+      height: 80%;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .close-external-player {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .external-player-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
     @media (max-width: 768px) {
       .video-header {
         height: 80vh;
@@ -572,6 +620,11 @@
       .settings-menu {
         min-width: 120px;
         font-size: 14px;
+      }
+      
+      .external-player-wrapper {
+        width: 95%;
+        height: 60%;
       }
     }
     
@@ -601,6 +654,10 @@
       .time-display {
         font-size: 12px;
       }
+      
+      .external-player-wrapper {
+        height: 50%;
+      }
     }
   </style>
 </head>
@@ -608,6 +665,16 @@
   <!-- Energy Balls Background Effect -->
   <div class="energy-ball energy-ball-1"></div>
   <div class="energy-ball energy-ball-2"></div>
+  
+  <!-- External Player Container (hidden by default) -->
+  <div class="external-player-container" id="external-player-container">
+    <div class="external-player-wrapper">
+      <button class="close-external-player" id="close-external-player">
+        <i class="fas fa-times"></i>
+      </button>
+      <iframe id="external-player-iframe" class="external-player-iframe" allowfullscreen></iframe>
+    </div>
+  </div>
   
   <!-- Video Header -->
   <div class="video-header">
@@ -699,9 +766,9 @@
   </section>
 
   <!-- Modal -->
-  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90 p-4">
-    <div class="relative w-full max-w-4xl bg-monsters-dark rounded-xl overflow-hidden shadow-2xl modal-enter border border-monsters-primary/30">
-      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-monsters-primary text-2xl transition bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center">
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90">
+    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden modal-enter">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-yellow-500 text-2xl transition">
         <i class="fas fa-times"></i>
       </button>
       
@@ -788,9 +855,6 @@
           <button id="play-episode" class="btn-primary text-white font-bold py-3 px-8 rounded-full flex items-center transition">
             <i class="fas fa-play mr-2"></i> PLAY EPISODE
           </button>
-          <button class="btn-secondary text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
-            <i class="fas fa-plus mr-2"></i> ADD TO WATCHLIST
-          </button>
         </div>
         <div class="mt-6 pt-6 border-t border-gray-800">
           <h4 class="text-sm font-semibold text-gray-400 mb-2">STARRING</h4>
@@ -815,6 +879,35 @@
           </div>
         </div>
         <div>
+          <h3 class="text-white font-bold mb-4">COMPANY</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">About Disney+</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Careers</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Help</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Terms of Use</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-bold mb-4">SHOWS</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Monsters, Inc.</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Monsters University</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Pixar Shorts</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Disney Originals</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-bold mb-4">SUPPORT</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Help Center</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Contact Us</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link text-gray-400 hover:text-white">Cookie Preferences</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
+        <p>© 2023 Disney and its related entities. All Rights Reserved.</p>
       </div>
     </div>
   </footer>
@@ -978,7 +1071,7 @@
         { 
           title: "Back to Work", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/3/3f/Monsters_At_Work_S2_E1.jpg",
           runtime: "26 min",
           rating: "8.7/10",
@@ -989,7 +1082,7 @@
         { 
           title: "The New Recruit", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/5/5f/Monsters_At_Work_S2_E2.jpg",
           runtime: "24 min",
           rating: "8.5/10",
@@ -1000,7 +1093,7 @@
         { 
           title: "The Competition", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/0/0e/Monsters_At_Work_S2_E3.jpg",
           runtime: "25 min",
           rating: "8.8/10",
@@ -1011,7 +1104,7 @@
         { 
           title: "The Secret Door", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/2/2b/Monsters_At_Work_S2_E4.jpg",
           runtime: "27 min",
           rating: "9.1/10",
@@ -1022,7 +1115,7 @@
         { 
           title: "The Monster Games", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/5/5e/Monsters_At_Work_S2_E5.jpg",
           runtime: "26 min",
           rating: "8.9/10",
@@ -1033,7 +1126,7 @@
         { 
           title: "The Laugh Heist", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/7/7c/Monsters_At_Work_S2_E6.jpg",
           runtime: "28 min",
           rating: "9.3/10",
@@ -1044,7 +1137,7 @@
         { 
           title: "The Monster Convention", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/3/3c/Monsters_At_Work_S2_E7.jpg",
           runtime: "25 min",
           rating: "8.6/10",
@@ -1055,7 +1148,7 @@
         { 
           title: "The Big Interview", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/5/5b/Monsters_At_Work_S2_E8.jpg",
           runtime: "24 min",
           rating: "8.4/10",
@@ -1066,7 +1159,7 @@
         { 
           title: "The Monster Swap", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/3/3b/Monsters_At_Work_S2_E9.jpg",
           runtime: "27 min",
           rating: "9.0/10",
@@ -1077,7 +1170,7 @@
         { 
           title: "The Future of Laughs", 
           year: 2023,
-          video: "https://vod-bgc-na-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/07/07/1625694375-monsters-at-work.mp4",
+          video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
           image: "https://static.wikia.nocookie.net/disney/images/3/3a/Monsters_At_Work_S2_E10.jpg",
           runtime: "30 min",
           rating: "9.5/10",
@@ -1087,7 +1180,7 @@
         }
       ]
     };
-
+    
     // DOM Elements
     const season1Container = document.getElementById('season-1');
     const season2Container = document.getElementById('season-2');
@@ -1122,6 +1215,11 @@
     const settingsBtn = document.getElementById('settings-btn');
     const settingsMenu = document.getElementById('settings-menu');
     const fullscreenBtn = document.getElementById('fullscreen-btn');
+    
+    // External Player Elements
+    const externalPlayerContainer = document.getElementById('external-player-container');
+    const externalPlayerIframe = document.getElementById('external-player-iframe');
+    const closeExternalPlayer = document.getElementById('close-external-player');
 
     // Initialize the page
     document.addEventListener('DOMContentLoaded', function() {
@@ -1206,6 +1304,9 @@
       
       // Mobile menu button
       mobileMenuButton.addEventListener('click', toggleMobileMenu);
+      
+      // Close external player button
+      closeExternalPlayer.addEventListener('click', closeExternalPlayerHandler);
       
       // Smooth scrolling for navigation links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1315,7 +1416,7 @@
       });
     }
 
-    // Open the episode modal
+    // Open the episode modal (for MP4 files)
     function openModal(episode, season, episodeNumber) {
       modalTitle.textContent = episode.title;
       modalDescription.textContent = episode.description;
@@ -1340,6 +1441,24 @@
       });
 
       playbackModal.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Open external player (for M3U8 and TXT files)
+    function openExternalPlayer(videoUrl, episode, season, episodeNumber) {
+      // Set the iframe source to player.html with the video URL as a parameter
+      const playerUrl = `player.html?video=${encodeURIComponent(videoUrl)}&title=${encodeURIComponent(episode.title)}&season=${season}&episode=${episodeNumber}`;
+      externalPlayerIframe.src = playerUrl;
+      
+      // Show the external player container
+      externalPlayerContainer.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close external player
+    function closeExternalPlayerHandler() {
+      externalPlayerContainer.style.display = 'none';
+      externalPlayerIframe.src = '';
+      document.body.style.overflow = '';
     }
 
     // Reset player state when opening a new video
@@ -1423,12 +1542,13 @@
     function updateVolume() {
       modalVideo.volume = volumeSlider.value;
       modalVideo.muted = false;
-      volumeOnIcon.classList.remove('hidden');
-      volumeOffIcon.classList.add('hidden');
       
       if (modalVideo.volume === 0) {
         volumeOnIcon.classList.add('hidden');
         volumeOffIcon.classList.remove('hidden');
+      } else {
+        volumeOnIcon.classList.remove('hidden');
+        volumeOffIcon.classList.add('hidden');
       }
     }
 
@@ -1447,6 +1567,7 @@
       volumeSlider.value = modalVideo.volume;
       
       if (modalVideo.volume === 0) {
+        modalVideo.muted = true;
         volumeOnIcon.classList.add('hidden');
         volumeOffIcon.classList.remove('hidden');
       } else {
@@ -1469,22 +1590,23 @@
       durationDisplay.textContent = formatTime(modalVideo.duration);
     }
 
-    // Format time in MM:SS
+    // Format time (seconds to MM:SS)
     function formatTime(seconds) {
       const minutes = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      const remainingSeconds = Math.floor(seconds % 60);
+      return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     }
 
-    // Seek to position in video
+    // Seek to position
     function seek(e) {
-      const pos = (e.pageX - this.getBoundingClientRect().left) / this.offsetWidth;
+      const rect = progressContainer.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
       modalVideo.currentTime = pos * modalVideo.duration;
     }
 
     // Seek relative to current position
     function seekRelative(seconds) {
-      modalVideo.currentTime = Math.max(0, Math.min(modalVideo.currentTime + seconds, modalVideo.duration));
+      modalVideo.currentTime += seconds;
     }
 
     // Toggle speed menu
@@ -1501,7 +1623,7 @@
     // Toggle fullscreen
     function toggleFullscreen() {
       if (!document.fullscreenElement) {
-        playbackModal.requestFullscreen().catch(err => {
+        document.querySelector('.video-container').requestFullscreen().catch(err => {
           console.error(`Error attempting to enable fullscreen: ${err.message}`);
         });
       } else {
@@ -1511,8 +1633,8 @@
 
     // Toggle mobile menu
     function toggleMobileMenu() {
-      // This would be implemented based on your mobile menu design
-      alert('Mobile menu would open here in a full implementation');
+      console.log('Mobile menu toggled');
+      // Implement mobile menu functionality here
     }
   </script>
 </body>
