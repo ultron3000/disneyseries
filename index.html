@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pixar Series Index</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+      color: white;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.02);
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+    }
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="text-4xl font-bold mb-8 text-center">Pixar Series Collection</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <a href="win-or-lose.html" class="card block text-white">
+      <img src="https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/8578/1740105338578-h" alt="Win or Lose">
+      <div class="p-4">
+        <h2 class="card-title">Win or Lose</h2>
+        <p class="text-sm text-gray-300">Pixar's original animated series about a middle school softball team's journey.</p>
+      </div>
+    </a>
+    <a href="inside-out.html" class="card block text-white">
+      <img src="https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5596/1732608105596-h" alt="Inside Out">
+      <div class="p-4">
+        <h2 class="card-title">Inside Out: The Series</h2>
+        <p class="text-sm text-gray-300">Dream Productions brings Riley’s emotional adventures to life in this TV mini series.</p>
+      </div>
+    </a>
+  </div>
+</body>
+</html>
