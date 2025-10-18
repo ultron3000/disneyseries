@@ -6,636 +6,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Stream all episodes of Zootopia+, the Disney+ animated series expanding the world of Zootopia with new stories about fan-favorite characters.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            zootopia: {
-              primary: '#00A3E0',
-              secondary: '#FF6B6B',
-              dark: '#1A1D2E',
-              light: '#F7FAFC',
-              purple: '#6E45E2',
-              teal: '#00C6B0'
-            }
-          },
-          fontFamily: {
-            sans: ['Poppins', 'sans-serif'],
-            display: ['Rubik', 'sans-serif']
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'bounce-slow': 'bounce 2.5s infinite'
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-20px)' }
-            }
-          }
-        }
-      }
-    }
-  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Rubik:wght@700;900&display=swap" rel="stylesheet">
   <style>
-    .gradient-text {
-      background: linear-gradient(90deg, #00A3E0 0%, #6E45E2 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: white;
     }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #00A3E0 0%, #6E45E2 100%);
-    }
-    
     .video-header {
       position: relative;
-      height: 90vh;
-      min-height: 700px;
+      height: 70vh;
       overflow: hidden;
     }
-    
     .video-header video {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
       min-width: 100%;
       min-height: 100%;
       width: auto;
       height: auto;
-      z-index: 0;
+      z-index: 1;
+      transform: translate(-50%, -50%);
       object-fit: cover;
     }
-    
     .video-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(26,29,46,0.9) 0%, rgba(26,29,46,0.3) 100%);
-      z-index: 1;
-    }
-    
-    .header-content {
-      position: relative;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
       z-index: 2;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
     }
-    
-    .episode-card {
-      transition: all 0.3s ease;
-      perspective: 1000px;
-      transform-style: preserve-3d;
-    }
-    
-    .episode-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-    
-    .episode-card:hover .episode-image {
-      transform: scale(1.08);
-    }
-    
-    .episode-image-container {
-      overflow: hidden;
-      border-radius: 12px 12px 0 0;
+    .video-content {
       position: relative;
-    }
-    
-    .episode-image {
-      transition: transform 0.5s cubic-bezier(0.25, 0.45, 0.45, 0.95);
-    }
-    
-    .play-icon {
-      transition: all 0.3s ease;
-      box-shadow: 0 0 30px rgba(0, 163, 224, 0.7);
-    }
-    
-    .episode-card:hover .play-icon {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-    
-    .modal-enter {
-      animation: modalEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-    
-    @keyframes modalEnter {
-      from {
-        opacity: 0;
-        transform: scale(0.9) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-    
-    .disney-logo {
-      width: 120px;
-      filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
-      transition: transform 0.3s ease;
-    }
-    
-    .disney-logo:hover {
-      transform: scale(1.05);
-    }
-    
-    .nav-container {
-      background: linear-gradient(to bottom, rgba(26,29,46,0.9) 0%, rgba(26,29,46,0) 100%);
-      backdrop-filter: blur(5px);
-    }
-    
-    .nav-link {
-      position: relative;
-    }
-    
-    .nav-link:after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 3px;
-      bottom: -5px;
-      left: 0;
-      background: #00A3E0;
-      transition: width 0.3s ease;
-      border-radius: 3px;
-    }
-    
-    .nav-link:hover:after {
-      width: 100%;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(90deg, #00A3E0 0%, #6E45E2 100%);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0, 163, 224, 0.4);
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 163, 224, 0.6);
-    }
-    
-    .btn-secondary {
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .episode-badge {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      border-radius: 12px;
-    }
-    
-    .scroll-indicator {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0) translateX(-50%);
-      }
-      40% {
-        transform: translateY(-20px) translateX(-50%);
-      }
-      60% {
-        transform: translateY(-10px) translateX(-50%);
-      }
-    }
-    
-    .character-card {
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .character-card:hover {
-      transform: translateY(-8px) scale(1.03);
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    
-    .section-title {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .section-title:after {
-      content: '';
-      position: absolute;
-      width: 50%;
-      height: 4px;
-      bottom: -8px;
-      left: 0;
-      background: linear-gradient(90deg, #00A3E0 0%, #6E45E2 100%);
-      border-radius: 4px;
-    }
-    
-    .testimonial-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-    
-    .testimonial-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .footer-link {
-      transition: all 0.2s ease;
-    }
-    
-    .footer-link:hover {
-      color: #00A3E0;
-      transform: translateX(5px);
-    }
-    
-    .character-animation {
-      animation: float 6s ease-in-out infinite;
-    }
-    
-    .pulse-animation {
-      animation: pulse-slow 3s infinite;
-    }
-    
-    .bounce-animation {
-      animation: bounce-slow 2.5s infinite;
-    }
-    
-    .parallax-bg {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    
-    .carousel-item {
-      transition: transform 0.5s ease, opacity 0.5s ease;
-    }
-    
-    .carousel-item.active {
-      opacity: 1;
-      transform: scale(1);
-      z-index: 10;
-    }
-    
-    .carousel-item.next,
-    .carousel-item.prev {
-      opacity: 0.5;
-      transform: scale(0.9);
-      z-index: 5;
-    }
-    
-    .carousel-item.hidden {
-      opacity: 0;
-      transform: scale(0.8);
-      z-index: 1;
-    }
-    
-    .carousel-nav-dot {
-      transition: all 0.3s ease;
-    }
-    
-    .carousel-nav-dot.active {
-      background-color: #00A3E0;
-      transform: scale(1.2);
-    }
-    
-    .carousel-nav-dot:hover {
-      background-color: #6E45E2;
-    }
-    
-    @media (max-width: 768px) {
-      .video-header {
-        height: 80vh;
-        min-height: 600px;
-      }
-      
-      .header-content h1 {
-        font-size: 3.5rem;
-      }
-      
-      .carousel-item {
-        min-width: 100%;
-      }
-    }
-    
-    @media (max-width: 640px) {
-      .video-header {
-        height: 70vh;
-        min-height: 500px;
-      }
-      
-      .header-content h1 {
-        font-size: 2.5rem;
-      }
+      z-index: 3;
+      max-width: 800px;
+      padding: 2rem;
     }
   </style>
 </head>
-<body class="bg-zootopia-dark text-zootopia-light font-sans">
+<body>
+
   <!-- Video Header -->
-  <div class="video-header">
-    <video autoplay muted loop playsinline poster="https://lumiere-a.akamaihd.net/v1/images/p_zootopiaplus_hero_21385_4c0a2d3e.jpeg">
-      <source src="https://imdb-video.media-imdb.com/vi479905049/1434659607842-pgv4ql-1667841164219.mp4?Expires=1748804128&Signature=c-nR4mejgvIQvLm19sdYu-HVkn8R5j9EhwtquEJlS-xQDK4nAO6A6ygiZAiiboZz0BOGqGGn1D7cWFd7LWsdgk-1ZMNEvEwTSpDcE6PNHR32opxErZGRX61EcLuBpBV1j1XypAnYlF1ArHBwd5CuoVGnJYryxyc441bvV~hPTN5eCV3MN06Po-Zq1rWX2IxSNZ6SzIA9D-pzHkI0BdY6Q8TiW4lIrTeEPu2ZNepSupfrxRMGU9JTAFdMfPLOhqotCiouHncWkOeiknfPyhwUm7xUGfM2V4vR2M47y1ybpULA4ovT3E85RbD~AIdmk8ofnRIqAFsBEK1Vl~BLJV2-WA__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA" type="video/mp4">
+  <section class="video-header flex items-center justify-start">
+    <video autoplay muted loop playsinline>
+      <source src="https://imdb-video.media-imdb.com/vi479905049/1434659607842-pgv4ql-1667841164219.mp4?Expires=1760912538&Signature=olup-Barv7f3Y62CbQf9UH78PuIjNSLrlzwxzWkpW8no2UOotdl1CoakueW4uR4dzpE8LwTQZlORMMHyZH12MXwuxqTOwp3BohdMIZutPD~bSs~qytYHx8RNegNerJnd0uelB9sgmq2h1Vjowzlkhzyxs817s1DaHzPjD5K3RnYXIGNS2ipbSEiVyC1P1sYdutRXgoQTMEhgUcIgvlu8upW~pwvCw~DO2D3XpDa8zs08Xh4R7hdTB-jxSan80CoX9AmUsvcGge3wlb40blYMuLcxyPB2bG1W5m7i-XCV0NFP0TzOhV0R5b4gNgFjPpwu4vUAiIGAgFuZOdipEgQqaw__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div class="video-overlay"></div>
-    
-    <div class="header-content">
-      <!-- Navigation -->
-      <div class="nav-container py-5 px-6 lg:px-12">
-        <div class="container mx-auto flex justify-between items-center">
-          <div class="flex items-center space-x-4">
-            <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="disney-logo h-10">
-            <h1 class="text-white font-bold text-xl"><span class="text-zootopia-primary">+</span></h1>
-          </div>
-
-          
-
-          <button class="md:hidden text-2xl text-white focus:outline-none" id="mobile-menu-button">
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Title Content -->
-      <div class="container mx-auto px-4 lg:px-12 flex-1 flex items-center">
-        <div class="max-w-4xl">
-          <div class="flex items-center mb-4">
-            <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="h-8 mr-4">
-            <span class="text-white font-semibold tracking-wider">ORIGINAL SERIES</span>
-          </div>
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 gradient-text font-display tracking-tight leading-tight">ZOOTOPIA<span class="text-white">+</span></h1>
-          <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="bg-zootopia-primary text-black px-4 py-1 rounded-full text-sm font-bold">NEW EPISODES</span>
-            <span class="text-gray-300">2022</span>
-            <span class="text-gray-300">•</span>
-            <span class="text-gray-300">6 EPISODES</span>
-            <span class="text-gray-300">•</span>
-            <span class="text-gray-300">TV-G</span>
-          </div>
-          <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
-            The adventures of the creatures of the most incredible metropolis: Zootopia.
-          </p>
-          <div class="flex flex-wrap gap-4">
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="scroll-indicator">
-        <i class="fas fa-chevron-down text-white text-3xl animate-bounce"></i>
+    <div class="video-content px-6 md:px-12">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-yellow-400">Zootopia+</h1>
+      <p class="text-lg md:text-xl text-gray-200 mb-6 max-w-xl">
+        The adventures of the creatures of the most incredible metropolis: Zootopia.
+      </p>
+      <div class="flex space-x-4">
+        <a href="#episodes" class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-6 rounded-full flex items-center transition transform hover:scale-105">
+          <i class="fas fa-play mr-2"></i> Play All
+        </a>
+        <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-full flex items-center transition">
+          <i class="fas fa-plus mr-2"></i> My List
+        </button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Floating Character Animation -->
-  <div class="relative overflow-hidden h-0">
-    <img src="https://wallpapers.com/images/featured/nick-wilde-5l711t3js4o9gw10.jpg" alt="Nick Wilde" class="absolute bottom-0 h-32 character-animation -left-32 opacity-70">
-    <img src="https://wallpapersok.com/images/high/judy-hopps-looking-up-a8oawqeq9jtmh349.jpg" alt="Judy Hopps" class="absolute bottom-0 h-32 character-animation -right-32 opacity-70" style="animation-delay: 1.5s;">
-  </div>
-
-  
 
   <!-- Episodes Section -->
-  <section id="episodes" class="py-20 bg-zootopia-dark">
-    <div class="container mx-auto px-4">
-      <div class="flex justify-between items-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-white section-title">EPISODES</h2>
-        <div class="flex items-center space-x-2">
-          <span class="text-gray-400">SEASON</span>
-          <div class="relative">
-            <select class="bg-zootopia-dark border border-gray-700 text-white rounded-full px-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-zootopia-primary">
-              <option>1</option>
-              <option disabled>2 (Coming Soon)</option>
-            </select>
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <i class="fas fa-chevron-down text-gray-400"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div id="episodes-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-    </div>
-  </section>
+  <main id="episodes" class="px-6 py-12">
+    <h2 class="text-3xl font-bold mb-6 text-yellow-400">Episodes</h2>
+    <div id="episodes-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  </main>
 
-  <!-- Characters Carousel Section -->
-  <section id="characters" class="py-20 bg-gradient-to-b from-zootopia-dark to-zootopia-dark/90">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 text-center section-title mx-auto">MEET THE CHARACTERS</h2>
-      
-      <div class="relative overflow-hidden">
-        <div id="characters-carousel" class="flex transition-transform duration-500 ease-in-out">
-          <!-- Character cards will be added here by JavaScript -->
-        </div>
-        
-        <button id="carousel-prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-zootopia-dark/80 text-white rounded-full w-12 h-12 flex items-center justify-center z-20 ml-2 hover:bg-zootopia-primary transition">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button id="carousel-next" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-zootopia-dark/80 text-white rounded-full w-12 h-12 flex items-center justify-center z-20 mr-2 hover:bg-zootopia-primary transition">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </div>
-      
-      <div id="carousel-nav" class="flex justify-center mt-6 space-x-2">
-        <!-- Navigation dots will be added here by JavaScript -->
-      </div>
-    </div>
-  </section>
-
-  
-
-  
-
-  
-
-  <!-- Modal -->
-  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90 p-4">
-    <div class="relative w-full max-w-4xl bg-zootopia-dark rounded-xl overflow-hidden shadow-2xl modal-enter border border-zootopia-primary/30">
-      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-zootopia-primary text-2xl transition bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center">
-        <i class="fas fa-times"></i>
-      </button>
-      <div class="aspect-w-16 aspect-h-9">
-        <video id="modal-video" class="w-full" controls poster="https://lumiere-a.akamaihd.net/v1/images/p_zootopiaplus_hero_21385_4c0a2d3e.jpeg">
-          Your browser does not support the video element.
-        </video>
-      </div>
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 id="modal-title" class="text-2xl font-bold mb-1 text-white"></h3>
-            <div class="text-gray-400 text-sm">
-              <span>S1 • E<span id="episode-num"></span></span> • <span id="episode-runtime"></span> • <span class="text-yellow-400">★ <span id="episode-rating"></span></span>
-            </div>
-          </div>
-          <div class="flex space-x-3">
-            <button class="text-gray-400 hover:text-white transition">
-              <i class="fas fa-share-alt"></i>
-            </button>
-            <button class="text-gray-400 hover:text-white transition">
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
-          </div>
-        </div>
-        <p id="modal-description" class="text-gray-300 mb-6"></p>
-        <div class="flex flex-wrap gap-4">
-          <button id="play-episode" class="btn-primary text-white font-bold py-3 px-8 rounded-full flex items-center transition">
-            <i class="fas fa-play mr-2"></i> PLAY EPISODE
-          </button>
-          <button class="btn-secondary text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
-            <i class="fas fa-plus mr-2"></i> WATCHLIST
-          </button>
-          <button class="btn-secondary text-white font-semibold py-3 px-4 rounded-full transition">
-            <i class="fas fa-thumbs-up"></i>
-          </button>
-        </div>
-        <div class="mt-6 pt-6 border-t border-gray-800">
-          <h4 class="text-sm font-semibold text-gray-400 mb-2">STARRING</h4>
-          <p class="text-gray-300 text-sm" id="modal-cast"></p>
-          <h4 class="text-sm font-semibold text-gray-400 mt-4 mb-2">DIRECTED BY</h4>
-          <p class="text-gray-300 text-sm" id="modal-director">Trent Correy, Josie Trinidad</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Gallery Modal -->
-  <div id="gallery-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90 p-4">
-    <div class="relative w-full max-w-6xl">
-      <button id="close-gallery-modal" class="absolute -top-12 right-0 z-50 text-white hover:text-zootopia-primary text-3xl transition">
-        <i class="fas fa-times"></i>
-      </button>
-      <img id="gallery-modal-image" src="" alt="" class="w-full max-h-screen object-contain">
-    </div>
-  </div>
-
-  <footer class="bg-zootopia-dark py-16 border-t border-gray-800">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div>
-          <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="h-10 mb-6">
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-zootopia-primary transition text-xl"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-gray-400 hover:text-zootopia-primary transition text-xl"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-gray-400 hover:text-zootopia-primary transition text-xl"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="text-gray-400 hover:text-zootopia-primary transition text-xl"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-        
-        
-        
-        
-          
-        </div>
-      </div>
-      
-      <div class="border-t border-gray-800 mt-12 pt-8 text-center">
-        <p class="text-gray-500 text-sm">This is an unofficial fan site. All content is used for educational purposes only.</p>
-      </div>
+  <!-- Footer -->
+  <footer class="bg-gray-900 py-8 mt-16">
+    <div class="text-center text-gray-400 text-sm">
+      © 2025 Baymax! All rights reserved.
     </div>
   </footer>
-
-  <script>
-    // Episodes Data
-    const episodes = [
-      { 
-        title: "Hopp on Board", 
-        year: 2022,
-        video: "https://cdn4521.humwi362loa.com:443/stream2/i-arch-400/3acd3bf9f684fa5180f137f3e95a456b/MJTMsp1RshGTygnMNRUR2N2MSlnWXZEdMNDZzQWe5MDZzMmdZJTO1R2RWVHZDljekhkSsl1VwYnWtx2cihVT21kaJpXTXJ1aNJTWzoFRJdnTEFkMNRkRp1keKtWT6VVeOdVRxkleBBTWtVVP:1750900525:185.21.13.232:ad00e9fbff05d224849d9687073858bf026b2507d718d1ae5a19e4af366477e6/./720/index.m3u8", 
-        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/9H9DBdtwNGvx0RAMP5YQobdX47t.jpg",
-        runtime: "8 min",
-        rating: "8.7/10",
-        description: "Follow the further adventures of Judy Hopps' overachieving siblings as they board a train to visit her in Zootopia.",
-        cast: "Bonnie Hunt, John DiMaggio, Kath Soucie",
-        director: "Trent Correy"
-      },
-      { 
-        title: "The Real Rodents of Little Rodentia", 
-        year: 2022,
-        video: "https://cdn4521.humwi362loa.com:443/stream2/i-arch-400/3acd3bf9f684fa5180f137f3e95a456b/MJTMsp1RshGTygnMNRUR2N2MSlnWXZEdMNDZzQWe5MDZzMmdZJTO1R2RWVHZDljekhkSsl1VwYnWtx2cihVT21keBlXTUlVNapWQyolajlnTXp1aaRlUp50ROtWWqtWNOdUS31EVaxWTH1UP:1750900643:185.21.13.232:b7ca12df705701305bbfcec2c38ed766b29174cdae6381f2c8c9d7794e5c1242/./720/index.m3u8", 
-        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/fPgtZCi83zmA5dGo0GB5gEHtUFf.jpg",
-        runtime: "7 min",
-        rating: "9.0/10",
-        description: "A reality TV show follows the dramatic lives of Fru Fru and her friends in Little Rodentia.",
-        cast: "Kristen Bell, Maurice LaMarche",
-        director: "Josie Trinidad"
-      },
-      { 
-        title: "Duke: The Musical", 
-        year: 2022,
-        video: "https://cdn4521.humwi362loa.com:443/stream2/i-arch-400/3acd3bf9f684fa5180f137f3e95a456b/MJTMsp1RshGTygnMNRUR2N2MSlnWXZEdMNDZzQWe5MDZzMmdZJTO1R2RWVHZDljekhkSsl1VwYnWtx2cihVT2p1RJBTTt1EeNRVSx4kaNdXTX1kMZp2a1oFVnFjT610daRlUo5keZdnTUVVP:1750900686:185.21.13.232:f61afb82d0b0fd511bc7474cbe8005a90ecab5f1c29fd5f002c678f4b2d32f8b/./720/index.m3u8", 
-        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/ydFPHiFLZdleAUlEohANYSwneia.jpg",
-        runtime: "9 min",
-        rating: "8.9/10",
-        description: "Duke Weaselton stars in his own Broadway-style musical about his criminal past.",
-        cast: "Alan Tudyk, Idina Menzel",
-        director: "Trent Correy"
-      },
-      { 
-        title: "The Godfather of the Bride", 
-        year: 2022,
-        video: "https://macdn.hakunaymatata.com/resource/69d4b29a3de454c2115ce2e9096dd858.mp4?Expires=1749755004&Signature=e0PHjnUKdreM8ooAAGU84Xohyn3NRQw3auad3xb1al14zFzybYjz8xbZDVtksK3m5BFn8gDbyX~gTgv-OMqpIE8nVuhki0X086-EXOcEDv5qFSGnhLxiCT6uCJbDXSosfz62CTfFM5rY2upqUOVFccvwlnHWAH1qWCt3vY1o9p4X76QyJlAiVmOGO8n1vmAX1fbrN-0jp~mma3TYswyTwtEMRn8WHR0rq0l5KMDUbKw0XTrg1GFMoqZMI88RsqzeEhdtAlmGUsWMvFSBQzLYtLyAPdFx0o~f4GdB7WmtbZOu7bkDAY8x5CVdeuXUwV24TRTpiB4ebfFLlpYDbTAsrA__&Key-Pair-Id=KMHN1LQ1HEUPL", 
-        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/lni7qNWyCOR5NmrceRxkUxsnxaJ.jpg",
-        runtime: "8 min",
-        rating: "9.5/10",
-        description: "Mr. Big prepares for his daughter Fru Fru's wedding in this Godfather parody.",
-        cast: "Maurice LaMarche, Kristen Bell",
-        director: "Josie Trinidad"
-      },
-      { 
-        title: "So You Think You Can Prance", 
-        year: 2022,
-        video: "https://macdn.hakunaymatata.com/resource/27706144d0e8c01d3f409a462d37b50a.mp4?Expires=1749757928&Signature=S5HIYiVi9zvzF7btB-6aVuiNWYSWPXPO9bfWGsHqys90bBA0dxBHB8eIUzoEfs2vVFunsrZAWYMWtWBciuSMOAUacC8zDMuB2Loge6lJAAApBnJ2emBrxUeL12GL8w1MYZcxtF1T2lCOkP4NiT0CQwz7IIQ~9n4HnU8R2mrzr-uDR6ywI88lsJnTIqZ09~Niu1022FvCs5mQbadirbwn~l-IGvDZZ7eogzFsDw2pCWZYSnTU4tvfmJscJXJBgUOtfUtKjv6Gju3Aqme1sEwywlH9OZ~Uo02ebK-Pc4FXfm4KlQmLQBPq11y40oHL1fJF0b~OivRFZFyBc0yO0zw1NQ__&Key-Pair-Id=KMHN1LQ1HEUPL", 
-        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/7uawyVKWoU8GBknHsiDW074w84s.jpg",
-        runtime: "7 min",
-        rating: "8.4/10",
-        description: "Gazelle holds auditions for backup dancers in this hilarious talent show parody.",
-        cast: "Shakira, Nate Torrence",
-        director: "Trent Correy"
-      },
-      { 
-        title: "Dinner Rush", 
-        year: 2022,
-        video: "https://macdn.hakunaymatata.com/resource/d7ade07b9b52e234f6810536849691f1.mp4?Expires=1749757952&Signature=j3jC0pW8UMPksA4Fs6GM5JuXxJpH5EcX6Tu~OuNvIV8VROXlOtoVkQl4eT6jt247nz3pCgSFVVxDG-hI-lQMVU2zNgUf~yGftJO22JBalZeceE-M-PGVccRDE9YvI1v59qE7fpJkFpzFBquCt20rgX9GuA0ipJxwxmetmeCTH44H~m2lDa9yNQUE3KLjAOZKFcbTIhweDokHtbTv-rL78rSpkUF7gFJ0t7~-4rhmlrjVXeLi20Hp-gNYyboUMklhnndhZCHOqPuMQAytdAyUaCJ1Cgsu-zWE7rq--7Yua1u4-M03E4GIoH7E8~ZqytHQepee~WI4L1bAJhoI5L~Pxw__&Key-Pair-Id=KMHN1LQ1HEUPL", 
-        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/dmigXGgbZqBJOIDoAs5AyWmlS9A.jpg",
-        runtime: "8 min",
-        rating: "9.1/10",
-        description: "Flash the sloth has a speed dating experience at the DMV that changes his life.",
-        cast: "Raymond S. Persi, Jenny Slate",
-        director: "Josie Trinidad"
-      }
-    ];
-
-    // Characters Data
+  
+// Characters Data
     const characters = [
       {
         name: "Judy Hopps",
@@ -675,256 +124,121 @@
       }
     ];
 
-    // DOM Elements
-    const container = document.getElementById('episodes-container');
-    const playbackModal = document.getElementById('playback-modal');
-    const closeModal = document.getElementById('close-modal');
-    const modalVideo = document.getElementById('modal-video');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const episodeNum = document.getElementById('episode-num');
-    const episodeRuntime = document.getElementById('episode-runtime');
-    const episodeRating = document.getElementById('episode-rating');
-    const episodeCast = document.getElementById('modal-cast');
-    const playEpisodeBtn = document.getElementById('play-episode');
-    const galleryModal = document.getElementById('gallery-modal');
-    const galleryModalImage = document.getElementById('gallery-modal-image');
-    const closeGalleryModal = document.getElementById('close-gallery-modal');
-    const charactersCarousel = document.getElementById('characters-carousel');
-    const carouselNav = document.getElementById('carousel-nav');
-    const carouselPrev = document.getElementById('carousel-prev');
-    const carouselNext = document.getElementById('carousel-next');
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.createElement('div');
-
-    // Mobile Menu Setup
-    mobileMenu.className = 'fixed inset-0 bg-zootopia-dark z-50 hidden flex-col items-center justify-center';
-    mobileMenu.innerHTML = `
-      <button class="absolute top-8 right-8 text-3xl text-white focus:outline-none" id="close-mobile-menu">
-        <i class="fas fa-times"></i>
-      </button>
-      <nav class="flex flex-col space-y-8 text-center">
-        <a href="#about" class="text-white text-3xl nav-link font-medium">About</a>
-        <a href="#episodes" class="text-white text-3xl nav-link font-medium">Episodes</a>
-        <a href="#characters" class="text-white text-3xl nav-link font-medium">Characters</a>
-        <a href="#gallery" class="text-white text-3xl nav-link font-medium">Gallery</a>
-      </nav>
-      <div class="absolute bottom-8 flex space-x-6">
-        <a href="#" class="text-white text-2xl"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="text-white text-2xl"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="text-white text-2xl"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="text-white text-2xl"><i class="fab fa-youtube"></i></a>
-      </div>
-    `;
-    document.body.appendChild(mobileMenu);
-
-    // Mobile Menu Toggle
-    mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    });
-
-    mobileMenu.querySelector('#close-mobile-menu').addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      document.body.style.overflow = '';
-    });
-
-    // Modal Functions
-    function openModal(episode, episodeNumber) {
-      modalTitle.textContent = episode.title;
-      modalDescription.textContent = episode.description;
-      episodeNum.textContent = episodeNumber;
-      episodeRuntime.textContent = episode.runtime;
-      episodeRating.textContent = episode.rating;
-      episodeCast.textContent = episode.cast;
-      
-      modalVideo.src = episode.video;
-      modalVideo.poster = episode.image;
-
-      playbackModal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      
-      playEpisodeBtn.addEventListener('click', () => {
-        modalVideo.play();
-      });
-    }
-
-    function closeModalHandler() {
-      playbackModal.classList.add('hidden');
-      modalVideo.pause();
-      modalVideo.currentTime = 0;
-      document.body.style.overflow = '';
-    }
-
-    closeModal.addEventListener('click', closeModalHandler);
-
-    // Close modal when clicking outside
-    playbackModal.addEventListener('click', (e) => {
-      if (e.target === playbackModal) {
-        closeModalHandler();
+  <script>
+  const movies = [
+    { 
+        title: "Hopp on Board", 
+        year: 2022,
+        video: "https://spuc.alphaignite.shop/v4/db/ktyct/index-f2-v1-a1.txt", 
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/9H9DBdtwNGvx0RAMP5YQobdX47t.jpg",
+        runtime: "8 min",
+        rating: "8.7/10",
+        description: "Follow the further adventures of Judy Hopps' overachieving siblings as they board a train to visit her in Zootopia.",
+        cast: "Bonnie Hunt, John DiMaggio, Kath Soucie",
+        director: "Trent Correy"
+      },
+      { 
+        title: "The Real Rodents of Little Rodentia", 
+        year: 2022,
+        video: "https://sj3l.presentationfunction.cyou:443/v4/db/3xpyg/index-f1-v1-a1.txt", 
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/fPgtZCi83zmA5dGo0GB5gEHtUFf.jpg",
+        runtime: "7 min",
+        rating: "9.0/10",
+        description: "A reality TV show follows the dramatic lives of Fru Fru and her friends in Little Rodentia.",
+        cast: "Kristen Bell, Maurice LaMarche",
+        director: "Josie Trinidad"
+      },
+      { 
+        title: "Duke: The Musical", 
+        year: 2022,
+        video: "https://s3ae.contributoroperation.cyou/v4/db/ir5o8/index-f1-v1-a1.txt", 
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/ydFPHiFLZdleAUlEohANYSwneia.jpg",
+        runtime: "9 min",
+        rating: "8.9/10",
+        description: "Duke Weaselton stars in his own Broadway-style musical about his criminal past.",
+        cast: "Alan Tudyk, Idina Menzel",
+        director: "Trent Correy"
+      },
+      { 
+        title: "The Godfather of the Bride", 
+        year: 2022,
+        video: "https://sskt.forecastinggalactic.shop/v4/db/dam5y/index-f1-v1-a1.txt", 
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/lni7qNWyCOR5NmrceRxkUxsnxaJ.jpg",
+        runtime: "8 min",
+        rating: "9.5/10",
+        description: "Mr. Big prepares for his daughter Fru Fru's wedding in this Godfather parody.",
+        cast: "Maurice LaMarche, Kristen Bell",
+        director: "Josie Trinidad"
+      },
+      { 
+        title: "So You Think You Can Prance", 
+        year: 2022,
+        video: "https://skra.visualizeemulator.shop/v4/db/xk8lj/index-f1-v1-a1.txt", 
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/7uawyVKWoU8GBknHsiDW074w84s.jpg",
+        runtime: "7 min",
+        rating: "8.4/10",
+        description: "Gazelle holds auditions for backup dancers in this hilarious talent show parody.",
+        cast: "Shakira, Nate Torrence",
+        director: "Trent Correy"
+      },
+      { 
+        title: "Dinner Rush", 
+        year: 2022,
+        video: "https://sskt.developerrelationship.cyou/v4/db/ovxtb/index-f1-v1-a1.txt", 
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/dmigXGgbZqBJOIDoAs5AyWmlS9A.jpg",
+        runtime: "8 min",
+        rating: "9.1/10",
+        description: "Flash the sloth has a speed dating experience at the DMV that changes his life.",
+        cast: "Raymond S. Persi, Jenny Slate",
+        director: "Josie Trinidad"
       }
-    });
+    ];
 
-    // Gallery Modal Functions
-    function openGalleryModal(imageSrc, altText) {
-      galleryModalImage.src = imageSrc;
-      galleryModalImage.alt = altText;
-      galleryModal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
+  const container = document.getElementById('episodes-container');
 
-    function closeGalleryModalHandler() {
-      galleryModal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-
-    closeGalleryModal.addEventListener('click', closeGalleryModalHandler);
-
-    // Gallery click handlers
-    document.querySelectorAll('.gallery-item').forEach((item, index) => {
-      item.addEventListener('click', () => {
-        const imgSrc = item.querySelector('img').src;
-        const altText = item.querySelector('img').alt;
-        openGalleryModal(imgSrc, altText);
-      });
-    });
-
-    // Carousel Functions
-    let currentCharacterIndex = 0;
-    const characterCards = [];
-    const navDots = [];
-
-    // Create character cards
-    characters.forEach((character, index) => {
+  function initPage() {
+    movies.forEach((movie, index) => {
       const card = document.createElement('div');
-      card.className = `character-card min-w-full md:min-w-1/2 lg:min-w-1/3 px-4 transition duration-300 ${index === 0 ? 'active' : 'hidden'}`;
+      card.className = `movie-card fade-in glow-effect`;
       card.innerHTML = `
-        <div class="bg-zootopia-dark/80 rounded-xl overflow-hidden h-full flex flex-col">
-          <div class="relative h-64 overflow-hidden">
-            <img src="${character.image}" alt="${character.name}" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-4 left-4">
-              <h3 class="text-2xl font-bold text-white">${character.name}</h3>
-              <p class="text-zootopia-primary">${character.actor}</p>
+        <div class="relative group overflow-hidden rounded-xl cursor-pointer">
+          <img src="${movie.image}" alt="${movie.title}" 
+               class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl transition duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div>
+              <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
+              <p class="text-gray-300 text-sm">${movie.runtime}</p>
             </div>
           </div>
-          <div class="p-6 flex-1">
-            <p class="text-gray-300">${character.description}</p>
+          <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
+            <i class="fas fa-play"></i>
+          </div>
+          <div class="absolute top-3 left-3 bg-black bg-opacity-70 text-yellow-500 rounded-full px-2 py-1 text-xs">
+            ${movie.rating}
           </div>
         </div>
-      `;
-      charactersCarousel.appendChild(card);
-      characterCards.push(card);
-
-      // Create nav dots
-      const dot = document.createElement('button');
-      dot.className = `carousel-nav-dot w-3 h-3 rounded-full bg-gray-600 ${index === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => {
-        showCharacter(index);
-      });
-      carouselNav.appendChild(dot);
-      navDots.push(dot);
-    });
-
-    function showCharacter(index) {
-      // Hide all cards
-      characterCards.forEach(card => {
-        card.classList.remove('active');
-        card.classList.add('hidden');
-      });
-      
-      // Show selected card
-      characterCards[index].classList.remove('hidden');
-      characterCards[index].classList.add('active');
-      
-      // Update nav dots
-      navDots.forEach(dot => dot.classList.remove('active'));
-      navDots[index].classList.add('active');
-      
-      currentCharacterIndex = index;
-    }
-
-    carouselPrev.addEventListener('click', () => {
-      const prevIndex = (currentCharacterIndex - 1 + characters.length) % characters.length;
-      showCharacter(prevIndex);
-    });
-
-    carouselNext.addEventListener('click', () => {
-      const nextIndex = (currentCharacterIndex + 1) % characters.length;
-      showCharacter(nextIndex);
-    });
-
-    // Auto-rotate carousel
-    let carouselInterval = setInterval(() => {
-      const nextIndex = (currentCharacterIndex + 1) % characters.length;
-      showCharacter(nextIndex);
-    }, 5000);
-
-    // Pause auto-rotation on hover
-    charactersCarousel.addEventListener('mouseenter', () => {
-      clearInterval(carouselInterval);
-    });
-
-    charactersCarousel.addEventListener('mouseleave', () => {
-      carouselInterval = setInterval(() => {
-        const nextIndex = (currentCharacterIndex + 1) % characters.length;
-        showCharacter(nextIndex);
-      }, 5000);
-    });
-
-    // Render episode cards
-    episodes.forEach((episode, index) => {
-      const card = document.createElement('div');
-      card.className = 'episode-card bg-zootopia-dark/50 rounded-xl overflow-hidden hover:shadow-lg transition duration-300 border border-gray-800 hover:border-zootopia-primary/50';
-      card.innerHTML = `
-        <div class="episode-image-container relative">
-          <img src="${episode.image}" alt="${episode.title}" class="episode-image w-full h-48 md:h-56 object-cover">
-          <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition cursor-pointer">
-            <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-zootopia-primary rounded-full w-14 h-14 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-              <i class="fas fa-play text-white text-xl"></i>
-            </div>
-          </div>
-          <span class="absolute top-3 right-3 episode-badge text-white text-xs px-3 py-1 font-medium">${episode.runtime}</span>
-        </div>
-        <div class="p-5">
-          <div class="flex justify-between items-start mb-2">
-            <h2 class="font-bold text-lg text-white">${episode.title}</h2>
-            <span class="text-yellow-400 text-sm font-medium">${episode.rating}</span>
-          </div>
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-400">Episode ${index + 1} • ${episode.year}</p>
-            <button class="text-gray-400 hover:text-zootopia-primary transition">
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
+        <div class="mt-3">
+          <h3 class="text-white font-medium">${movie.title}</h3>
+          <div class="flex items-center text-gray-400 text-sm mt-1">
+            <span>${movie.year}</span>
+            <span class="mx-2">•</span>
+            <span>${movie.runtime}</span>
           </div>
         </div>
       `;
       card.addEventListener('click', () => {
-        openModal(episode, index + 1);
+        const params = new URLSearchParams({
+          title: movie.title,
+          video: movie.video
+        });
+        window.location.href = `player.html?${params.toString()}`;
       });
+
       container.appendChild(card);
     });
+  }
 
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-        
-        // Close mobile menu if open
-        mobileMenu.classList.add('hidden');
-        document.body.style.overflow = '';
-      });
-    });
-
-    // Make video header play/pause on hover
-    const headerVideo = document.querySelector('.video-header video');
-    headerVideo.play().catch(e => {
-      console.log("Autoplay prevented, showing fallback");
-    });
+  window.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
 </html>
