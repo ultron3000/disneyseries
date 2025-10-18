@@ -70,10 +70,10 @@
     </div>
   </section>
 
-  <!-- Episodes Placeholder -->
+  <!-- Episodes Section -->
   <main id="episodes" class="px-6 py-12">
     <h2 class="text-3xl font-bold mb-6 text-yellow-400">Episodes</h2>
-    <p class="text-gray-300">[Episode list goes here]</p>
+    <div id="episodes-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
   </main>
 
   <!-- Footer -->
@@ -84,89 +84,81 @@
   </footer>
 
   <script>
-  // Movie data (unchanged)
   const movies = [
     { 
-        title: "Kiko", 
-        year: 2022,
-        video: "https://sipt.architectureemerging.shop:443/v4/36/5gldg/index-f2-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/300x200/b5/89/b589385513f5c483a7aa79a48936baf3/b589385513f5c483a7aa79a48936baf3.jpg",
-        runtime: "45 min",
-        rating: "8.2/10",
-        description: "Baymax urges a reluctant Kiko to ease her aches and face her fears.",
-        director: "Don Hall",
-        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
-      },
-      { 
-        title: "Cass", 
-        year: 2022,
-        video: "https://sxic.simulationprecision.cfd/v4/sc/qfilw/cf-master.txt?v=1732027517", 
-        image: "https://f.woowoowoowoo.net/resize/300x200/a7/a0/a7a0d06fccfba875079e0f4a3f4a8547/a7a0d06fccfba875079e0f4a3f4a8547.jpg",
-        runtime: "45 min",
-        rating: "8.4/10",
-        description: "Cass meets her match in Baymax when an injury threatens to keep her from running the Lucky Cat Café.",
-        director: "Don Hall",
-        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
-      },
-      { 
-        title: "Sofia", 
-        year: 2022,
-        video: "https://spuc.presentationfunction.cyou/v4/36/8ye9x/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/300x200/b1/11/b111d3d5bfeea752db97dac55370e8e6/b111d3d5bfeea752db97dac55370e8e6.jpg",
-        runtime: "45 min",
-        rating: "8.6/10",
-        description: "Middle-school student Sofia faces some major life changes with Baymax's unwavering support.",
-        director: "Don Hall",
-        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
-      },
-      { 
-        title: "Mbita", 
-        year: 2022,
-        video: "https://sskt.guardconnect.shop/v4/db/gocaq/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/300x200/6c/d5/6cd5db0e4c7f5be07f2b1d1b956e232b/6cd5db0e4c7f5be07f2b1d1b956e232b.jpg",
-        runtime: "45 min",
-        rating: "8.8/10",
-        description: "Mbita serves up a family favorite until an unexpected allergy and Baymax give him reason to change.",
-        director: "Don Hall",
-        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
-      },
-      { 
-        title: "Yachi", 
-        year: 2022,
-        video: "https://s3ae.encryptiontransmit.cyou/v4/db/6d3w3/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/300x200/96/41/9641c9537c1160465949812b63aac701/9641c9537c1160465949812b63aac701.jpg",
-        runtime: "45 min",
-        rating: "9.0/10",
-        description: "Hungry cat Yachi fiercely resists Baymax's efforts to relieve him of an uncomfortable intrusion.",
-        director: "Don Hall",
-        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
-      },
-      { 
-        title: "Baymax", 
-        year: 2022,
-        video: "https://spuc.responsiveconverter.shop/v4/ic/tmpou/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/300x200/99/77/99779e2155a550bceba10e08310687b2/99779e2155a550bceba10e08310687b2.jpg",
-        runtime: "45 min",
-        rating: "9.2/10",
-        description: "Baymax's best patients come together in a frantic race to help the health-care companion.",
-        director: "Don Hall",
-        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
-      }
-    ];
+      title: "Kiko", 
+      year: 2022,
+      video: "https://sipt.architectureemerging.shop:443/v4/36/5gldg/index-f2-v1-a1.txt", 
+      image: "https://f.woowoowoowoo.net/resize/300x200/b5/89/b589385513f5c483a7aa79a48936baf3/b589385513f5c483a7aa79a48936baf3.jpg",
+      runtime: "45 min",
+      rating: "8.2/10",
+      description: "Baymax urges a reluctant Kiko to ease her aches and face her fears.",
+      director: "Don Hall",
+      cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+    },
+    { 
+      title: "Cass", 
+      year: 2022,
+      video: "https://sxic.simulationprecision.cfd/v4/sc/qfilw/cf-master.txt?v=1732027517", 
+      image: "https://f.woowoowoowoo.net/resize/300x200/a7/a0/a7a0d06fccfba875079e0f4a3f4a8547/a7a0d06fccfba875079e0f4a3f4a8547.jpg",
+      runtime: "45 min",
+      rating: "8.4/10",
+      description: "Cass meets her match in Baymax when an injury threatens to keep her from running the Lucky Cat Café.",
+      director: "Don Hall",
+      cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+    },
+    { 
+      title: "Sofia", 
+      year: 2022,
+      video: "https://spuc.presentationfunction.cyou/v4/36/8ye9x/index-f1-v1-a1.txt", 
+      image: "https://f.woowoowoowoo.net/resize/300x200/b1/11/b111d3d5bfeea752db97dac55370e8e6/b111d3d5bfeea752db97dac55370e8e6.jpg",
+      runtime: "45 min",
+      rating: "8.6/10",
+      description: "Middle-school student Sofia faces some major life changes with Baymax's unwavering support.",
+      director: "Don Hall",
+      cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+    },
+    { 
+      title: "Mbita", 
+      year: 2022,
+      video: "https://sskt.guardconnect.shop/v4/db/gocaq/index-f1-v1-a1.txt", 
+      image: "https://f.woowoowoowoo.net/resize/300x200/6c/d5/6cd5db0e4c7f5be07f2b1d1b956e232b/6cd5db0e4c7f5be07f2b1d1b956e232b.jpg",
+      runtime: "45 min",
+      rating: "8.8/10",
+      description: "Mbita serves up a family favorite until an unexpected allergy and Baymax give him reason to change.",
+      director: "Don Hall",
+      cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+    },
+    { 
+      title: "Yachi", 
+      year: 2022,
+      video: "https://s3ae.encryptiontransmit.cyou/v4/db/6d3w3/index-f1-v1-a1.txt", 
+      image: "https://f.woowoowoowoo.net/resize/300x200/96/41/9641c9537c1160465949812b63aac701/9641c9537c1160465949812b63aac701.jpg",
+      runtime: "45 min",
+      rating: "9.0/10",
+      description: "Hungry cat Yachi fiercely resists Baymax's efforts to relieve him of an uncomfortable intrusion.",
+      director: "Don Hall",
+      cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+    },
+    { 
+      title: "Baymax", 
+      year: 2022,
+      video: "https://spuc.responsiveconverter.shop/v4/ic/tmpou/index-f1-v1-a1.txt", 
+      image: "https://f.woowoowoowoo.net/resize/300x200/99/77/99779e2155a550bceba10e08310687b2/99779e2155a550bceba10e08310687b2.jpg",
+      runtime: "45 min",
+      rating: "9.2/10",
+      description: "Baymax's best patients come together in a frantic race to help the health-care companion.",
+      director: "Don Hall",
+      cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+    }
+  ];
 
+  const container = document.getElementById('episodes-container');
 
-  // DOM elements
-  const container = document.getElementById('episodes');
-  const searchBtn = document.getElementById('search-btn');
-  const searchBar = document.getElementById('search-bar');
-  const themeToggle = document.getElementById('theme-toggle');
-
-  // Initialize the page
   function initPage() {
-    // Create movie cards
     movies.forEach((movie, index) => {
       const card = document.createElement('div');
-      card.className = `movie-card fade-in delay-${index % 5} glow-effect`;
+      card.className = `movie-card fade-in glow-effect`;
       card.innerHTML = `
         <div class="relative group overflow-hidden rounded-xl cursor-pointer">
           <img src="${movie.image}" alt="${movie.title}" 
@@ -193,8 +185,6 @@
           </div>
         </div>
       `;
-      
-      // 🟢 Redirect to player.html with video and title
       card.addEventListener('click', () => {
         const params = new URLSearchParams({
           title: movie.title,
@@ -205,37 +195,9 @@
 
       container.appendChild(card);
     });
-
-    // Filter buttons
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelector('.filter-btn.active').classList.remove('active', 'bg-yellow-600', 'text-black');
-        this.classList.add('active', 'bg-yellow-600', 'text-black');
-      });
-    });
   }
 
-  // Event listeners
-  searchBtn.addEventListener('click', () => {
-    searchBar.classList.toggle('hidden');
-  });
-
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('bg-gray-100');
-    document.body.classList.toggle('text-gray-900');
-    document.body.classList.toggle('bg-black');
-    document.body.classList.toggle('text-gray-100');
-    
-    const icon = themeToggle.querySelector('i');
-    if (document.body.classList.contains('bg-black')) {
-      icon.classList.remove('fa-sun');
-      icon.classList.add('fa-moon');
-    } else {
-      icon.classList.remove('fa-moon');
-      icon.classList.add('fa-sun');
-    }
-  });
-
-  // Init on load
   window.addEventListener('DOMContentLoaded', initPage);
-</script>
+  </script>
+</body>
+</html>
