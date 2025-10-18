@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baymax!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Return to the fantastical city of San Fransokyo where the affable, inflatable, inimitable healthcare companion robot, Baymax, sets out to do what he was programmed to do: help others.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #000000, #1a1a2e);
+      min-height: 100vh;
+    }
+    .episode-card:hover .play-icon {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #f6d365 0%, #fda085 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .modal-enter {
+      animation: modalEnter 0.3s ease-out forwards;
+    }
+    @keyframes modalEnter {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .showcase-header {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%), 
+                  url('https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5350/1665350-i-ddd65e9c0cf9') no-repeat center center;
+      background-size: cover;
+      height: 70vh;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <div class="showcase-header">
+    <header class="bg-gradient-to-b from-black to-transparent py-4 px-6">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
+            <i class="fas fa-play text-black"></i>
+          </div>
+          <h1 class="text-xl font-bold">Iwájú<span class="text-yellow-500">+</span></h1>
+        </div>
+        <nav class="hidden md:flex space-x-6">
+          <a href="#" class="hover:text-yellow-400 transition">Home</a>
+          <a href="#" class="hover:text-yellow-400 transition">Episodes</a>
+          <a href="#" class="hover:text-yellow-400 transition">Characters</a>
+          <a href="#" class="hover:text-yellow-400 transition">Gallery</a>
+        </nav>
+        <button class="md:hidden text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="container mx-auto px-4 flex-1 flex items-center">
+      <div class="max-w-4xl">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 gradient-text">Baymax!</h1>
+        <div class="flex items-center space-x-4 mb-6">
+          <span class="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-semibold">Season 1</span>
+          <span class="text-gray-400">2022</span>
+          <span class="text-gray-400">•</span>
+          <span class="text-gray-400">6 Episodes</span>
+        </div>
+        <p class="text-lg text-gray-300 mb-6">
+          Return to the fantastical city of San Fransokyo where the affable, inflatable, inimitable healthcare companion robot, Baymax, sets out to do what he was programmed to do: help others.
+        </p>
+        <div class="flex space-x-4">
+          <button class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-8 rounded-full flex items-center transition transform hover:scale-105">
+            <i class="fas fa-play mr-2"></i> Play All
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
+            <i class="fas fa-plus mr-2"></i> My List
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container mx-auto px-4 pb-16">
+    <h2 class="text-3xl font-bold mb-8 flex items-center">
+      <span class="mr-4">Episodes</span>
+      <span class="text-yellow-500 text-xl">Season 1</span>
+    </h2>
+    
+    <div id="episodes" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90">
+    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden modal-enter">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-yellow-500 text-2xl transition">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="aspect-w-16 aspect-h-9">
+        <video id="modal-video" class="w-full" controls poster="https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5760/1665760-h-84d351053326"></video>
+      </div>
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 id="modal-title" class="text-2xl font-bold mb-1"></h3>
+            <div class="text-gray-400 text-sm">
+              <span>S1 • E<span id="episode-num"></span></span> • 45 min • <span class="text-yellow-500">★ 8.5/10</span>
+            </div>
+          </div>
+          <div class="flex space-x-3">
+            <button class="text-gray-400 hover:text-white transition">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="text-gray-400 hover:text-white transition">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+          </div>
+        </div>
+        <p id="modal-description" class="text-gray-300 mb-6"></p>
+        <div class="flex space-x-4">
+          <button class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-8 rounded-full flex items-center transition transform hover:scale-105">
+            <i class="fas fa-play mr-2"></i> Play
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
+            <i class="fas fa-plus mr-2"></i> Watchlist
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-full transition">
+            <i class="fas fa-thumbs-up"></i>
+          </button>
+        </div>
+        <div class="mt-6 pt-6 border-t border-gray-800">
+          <h4 class="text-sm font-semibold text-gray-400 mb-2">Starring</h4>
+          <p class="text-gray-300 text-sm">Scott Adsit, Ryan Potter, Dichen Lachman</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-gray-900 py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
+              <i class="fas fa-play text-black"></i>
+            </div>
+            <h1 class="text-xl font-bold">Iwájú<span class="text-yellow-500">+</span></h1>
+          </div>
+          <p class="text-gray-400 text-sm">© 2024 Disney+ Original Series</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-gray-300 font-semibold mb-3">Navigation</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Home</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Episodes</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Characters</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Gallery</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-gray-300 font-semibold mb-3">Legal</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Terms</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Privacy</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Cookies</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-gray-300 font-semibold mb-3">Social</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-facebook"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  // Movie data (unchanged)
+  const movies = [
+    { 
+        title: "Kiko", 
+        year: 2022,
+        video: "https://sipt.architectureemerging.shop:443/v4/36/5gldg/index-f2-v1-a1.txt", 
+        image: "https://f.woowoowoowoo.net/resize/300x200/b5/89/b589385513f5c483a7aa79a48936baf3/b589385513f5c483a7aa79a48936baf3.jpg",
+        runtime: "45 min",
+        rating: "8.2/10",
+        description: "Baymax urges a reluctant Kiko to ease her aches and face her fears.",
+        director: "Don Hall",
+        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+      },
+      { 
+        title: "Cass", 
+        year: 2022,
+        video: "https://sxic.simulationprecision.cfd/v4/sc/qfilw/cf-master.txt?v=1732027517", 
+        image: "https://f.woowoowoowoo.net/resize/300x200/a7/a0/a7a0d06fccfba875079e0f4a3f4a8547/a7a0d06fccfba875079e0f4a3f4a8547.jpg",
+        runtime: "45 min",
+        rating: "8.4/10",
+        description: "Cass meets her match in Baymax when an injury threatens to keep her from running the Lucky Cat Café.",
+        director: "Don Hall",
+        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+      },
+      { 
+        title: "Sofia", 
+        year: 2022,
+        video: "https://spuc.presentationfunction.cyou/v4/36/8ye9x/index-f1-v1-a1.txt", 
+        image: "https://f.woowoowoowoo.net/resize/300x200/b1/11/b111d3d5bfeea752db97dac55370e8e6/b111d3d5bfeea752db97dac55370e8e6.jpg",
+        runtime: "45 min",
+        rating: "8.6/10",
+        description: "Middle-school student Sofia faces some major life changes with Baymax's unwavering support.",
+        director: "Don Hall",
+        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+      },
+      { 
+        title: "Mbita", 
+        year: 2022,
+        video: "https://sskt.guardconnect.shop/v4/db/gocaq/index-f1-v1-a1.txt", 
+        image: "https://f.woowoowoowoo.net/resize/300x200/6c/d5/6cd5db0e4c7f5be07f2b1d1b956e232b/6cd5db0e4c7f5be07f2b1d1b956e232b.jpg",
+        runtime: "45 min",
+        rating: "8.8/10",
+        description: "Mbita serves up a family favorite until an unexpected allergy and Baymax give him reason to change.",
+        director: "Don Hall",
+        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+      },
+      { 
+        title: "Yachi", 
+        year: 2022,
+        video: "https://s3ae.encryptiontransmit.cyou/v4/db/6d3w3/index-f1-v1-a1.txt", 
+        image: "https://f.woowoowoowoo.net/resize/300x200/96/41/9641c9537c1160465949812b63aac701/9641c9537c1160465949812b63aac701.jpg",
+        runtime: "45 min",
+        rating: "9.0/10",
+        description: "Hungry cat Yachi fiercely resists Baymax's efforts to relieve him of an uncomfortable intrusion.",
+        director: "Don Hall",
+        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+      },
+      { 
+        title: "Baymax", 
+        year: 2022,
+        video: "https://spuc.responsiveconverter.shop/v4/ic/tmpou/index-f1-v1-a1.txt", 
+        image: "https://f.woowoowoowoo.net/resize/300x200/99/77/99779e2155a550bceba10e08310687b2/99779e2155a550bceba10e08310687b2.jpg",
+        runtime: "45 min",
+        rating: "9.2/10",
+        description: "Baymax's best patients come together in a frantic race to help the health-care companion.",
+        director: "Don Hall",
+        cast: "Scott Adsit, Ryan Potter, Dichen Lachman"
+      }
+    ];
+
+
+  // DOM elements
+  const container = document.getElementById('movies');
+  const searchBtn = document.getElementById('search-btn');
+  const searchBar = document.getElementById('search-bar');
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // Initialize the page
+  function initPage() {
+    // Create movie cards
+    movies.forEach((movie, index) => {
+      const card = document.createElement('div');
+      card.className = `movie-card fade-in delay-${index % 5} glow-effect`;
+      card.innerHTML = `
+        <div class="relative group overflow-hidden rounded-xl cursor-pointer">
+          <img src="${movie.image}" alt="${movie.title}" 
+               class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl transition duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div>
+              <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
+              <p class="text-gray-300 text-sm">${movie.runtime}</p>
+            </div>
+          </div>
+          <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
+            <i class="fas fa-play"></i>
+          </div>
+          <div class="absolute top-3 left-3 bg-black bg-opacity-70 text-yellow-500 rounded-full px-2 py-1 text-xs">
+            ${movie.rating}
+          </div>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-white font-medium">${movie.title}</h3>
+          <div class="flex items-center text-gray-400 text-sm mt-1">
+            <span>${movie.year}</span>
+            <span class="mx-2">•</span>
+            <span>${movie.runtime}</span>
+          </div>
+        </div>
+      `;
+      
+      // 🟢 Redirect to player.html with video and title
+      card.addEventListener('click', () => {
+        const params = new URLSearchParams({
+          title: movie.title,
+          video: movie.video
+        });
+        window.location.href = `player.html?${params.toString()}`;
+      });
+
+      container.appendChild(card);
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelector('.filter-btn.active').classList.remove('active', 'bg-yellow-600', 'text-black');
+        this.classList.add('active', 'bg-yellow-600', 'text-black');
+      });
+    });
+  }
+
+  // Event listeners
+  searchBtn.addEventListener('click', () => {
+    searchBar.classList.toggle('hidden');
+  });
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('bg-gray-100');
+    document.body.classList.toggle('text-gray-900');
+    document.body.classList.toggle('bg-black');
+    document.body.classList.toggle('text-gray-100');
+    
+    const icon = themeToggle.querySelector('i');
+    if (document.body.classList.contains('bg-black')) {
+      icon.classList.remove('fa-sun');
+      icon.classList.add('fa-moon');
+    } else {
+      icon.classList.remove('fa-moon');
+      icon.classList.add('fa-sun');
+    }
+  });
+
+  // Init on load
+  window.addEventListener('DOMContentLoaded', initPage);
+</script>
