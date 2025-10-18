@@ -2,193 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Baymax!</title>
+  <title>Baymax! – Video Header</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Return to the fantastical city of San Fransokyo where the affable, inflatable, inimitable healthcare companion robot, Baymax, sets out to do what he was programmed to do: help others.">
+  <meta name="description" content="Baymax! returns to help others in the city of San Fransokyo.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom, #000000, #1a1a2e);
-      min-height: 100vh;
+      background: #000;
+      color: white;
     }
-    .episode-card:hover .play-icon {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-    .gradient-text {
-      background: linear-gradient(90deg, #f6d365 0%, #fda085 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .modal-enter {
-      animation: modalEnter 0.3s ease-out forwards;
-    }
-    @keyframes modalEnter {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-    .showcase-header {
-      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%), 
-                  url('https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5350/1665350-i-ddd65e9c0cf9') no-repeat center center;
-      background-size: cover;
+    .video-header {
+      position: relative;
       height: 70vh;
-      min-height: 500px;
-      display: flex;
-      flex-direction: column;
+      overflow: hidden;
+    }
+    .video-header video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+      z-index: 2;
+    }
+    .video-content {
+      position: relative;
+      z-index: 3;
+      max-width: 800px;
+      padding: 2rem;
     }
   </style>
 </head>
 <body>
-  <div class="showcase-header">
-    <header class="bg-gradient-to-b from-black to-transparent py-4 px-6">
-      <div class="container mx-auto flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-          <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-            <i class="fas fa-play text-black"></i>
-          </div>
-          <h1 class="text-xl font-bold">Iwájú<span class="text-yellow-500">+</span></h1>
-        </div>
-        <nav class="hidden md:flex space-x-6">
-          <a href="#" class="hover:text-yellow-400 transition">Home</a>
-          <a href="#" class="hover:text-yellow-400 transition">Episodes</a>
-          <a href="#" class="hover:text-yellow-400 transition">Characters</a>
-          <a href="#" class="hover:text-yellow-400 transition">Gallery</a>
-        </nav>
-        <button class="md:hidden text-2xl">
-          <i class="fas fa-bars"></i>
+
+  <!-- Video Header -->
+  <section class="video-header flex items-center justify-start">
+    <video autoplay muted loop playsinline>
+      <source src="https://imdb-video.media-imdb.com/vi2767438361/1434659607842-pgv4ql-1653057605549.mp4?Expires=1760848554&Signature=nTFcegGtmPnDr8Zl-BakAcZl5cFTUmTgyjwRixbYIyLuROLFGTBBE64K8c245dYAMMRoW0s4fmE7IrZ-xU~ATjqIuR6IEsFE8utJOCSK0VGl2jATp7Lx-m3uHbVTu6aLByDhtKQGI~uDf-WHnBJZXiUDd03LinrWBFZAe1M2vfggSVwHrAns-k~VhrDYX7xXEt6IVi9SyTuDufVP2LvSdczUUsMA-RWnaQPYmEUsp9xD5Ou0z8T23Z2FhtX6PHzKu5zAcOK8C6sGc0u7UiDg~g621DGoimqAo3mgH0rwnWH1Gr1W0PeD7enZ4U88g60U-fiXwNe7v3O7GEpDL414Ig__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+    <div class="video-content px-6 md:px-12">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-yellow-400">Baymax!</h1>
+      <p class="text-lg md:text-xl text-gray-200 mb-6 max-w-xl">
+        Return to the fantastical city of San Fransokyo where the affable, inflatable, inimitable healthcare companion robot, Baymax, sets out to do what he was programmed to do: help others.
+      </p>
+      <div class="flex space-x-4">
+        <a href="#episodes" class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-6 rounded-full flex items-center transition transform hover:scale-105">
+          <i class="fas fa-play mr-2"></i> Play All
+        </a>
+        <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-full flex items-center transition">
+          <i class="fas fa-plus mr-2"></i> My List
         </button>
       </div>
-    </header>
-
-    <div class="container mx-auto px-4 flex-1 flex items-center">
-      <div class="max-w-4xl">
-        <h1 class="text-5xl md:text-6xl font-bold mb-4 gradient-text">Baymax!</h1>
-        <div class="flex items-center space-x-4 mb-6">
-          <span class="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-semibold">Season 1</span>
-          <span class="text-gray-400">2022</span>
-          <span class="text-gray-400">•</span>
-          <span class="text-gray-400">6 Episodes</span>
-        </div>
-        <p class="text-lg text-gray-300 mb-6">
-          Return to the fantastical city of San Fransokyo where the affable, inflatable, inimitable healthcare companion robot, Baymax, sets out to do what he was programmed to do: help others.
-        </p>
-        <div class="flex space-x-4">
-          <button class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-8 rounded-full flex items-center transition transform hover:scale-105">
-            <i class="fas fa-play mr-2"></i> Play All
-          </button>
-          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
-            <i class="fas fa-plus mr-2"></i> My List
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
+  </section>
 
-  <main class="container mx-auto px-4 pb-16">
-    <h2 class="text-3xl font-bold mb-8 flex items-center">
-      <span class="mr-4">Episodes</span>
-      <span class="text-yellow-500 text-xl">Season 1</span>
-    </h2>
-    
-    <div id="episodes" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  <!-- Episodes Placeholder -->
+  <main id="episodes" class="px-6 py-12">
+    <h2 class="text-3xl font-bold mb-6 text-yellow-400">Episodes</h2>
+    <p class="text-gray-300">[Episode list goes here]</p>
   </main>
 
-  <!-- Modal -->
-  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90">
-    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden modal-enter">
-      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-yellow-500 text-2xl transition">
-        <i class="fas fa-times"></i>
-      </button>
-      <div class="aspect-w-16 aspect-h-9">
-        <video id="modal-video" class="w-full" controls poster="https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5760/1665760-h-84d351053326"></video>
-      </div>
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 id="modal-title" class="text-2xl font-bold mb-1"></h3>
-            <div class="text-gray-400 text-sm">
-              <span>S1 • E<span id="episode-num"></span></span> • 45 min • <span class="text-yellow-500">★ 8.5/10</span>
-            </div>
-          </div>
-          <div class="flex space-x-3">
-            <button class="text-gray-400 hover:text-white transition">
-              <i class="fas fa-share-alt"></i>
-            </button>
-            <button class="text-gray-400 hover:text-white transition">
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
-          </div>
-        </div>
-        <p id="modal-description" class="text-gray-300 mb-6"></p>
-        <div class="flex space-x-4">
-          <button class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-8 rounded-full flex items-center transition transform hover:scale-105">
-            <i class="fas fa-play mr-2"></i> Play
-          </button>
-          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
-            <i class="fas fa-plus mr-2"></i> Watchlist
-          </button>
-          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-full transition">
-            <i class="fas fa-thumbs-up"></i>
-          </button>
-        </div>
-        <div class="mt-6 pt-6 border-t border-gray-800">
-          <h4 class="text-sm font-semibold text-gray-400 mb-2">Starring</h4>
-          <p class="text-gray-300 text-sm">Scott Adsit, Ryan Potter, Dichen Lachman</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer class="bg-gray-900 py-12">
-    <div class="container mx-auto px-4">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-6 md:mb-0">
-          <div class="flex items-center space-x-2 mb-4">
-            <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-              <i class="fas fa-play text-black"></i>
-            </div>
-            <h1 class="text-xl font-bold">Iwájú<span class="text-yellow-500">+</span></h1>
-          </div>
-          <p class="text-gray-400 text-sm">© 2024 Disney+ Original Series</p>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div>
-            <h3 class="text-gray-300 font-semibold mb-3">Navigation</h3>
-            <ul class="space-y-2">
-              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Home</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Episodes</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Characters</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Gallery</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-gray-300 font-semibold mb-3">Legal</h3>
-            <ul class="space-y-2">
-              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Terms</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Privacy</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition">Cookies</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-gray-300 font-semibold mb-3">Social</h3>
-            <div class="flex space-x-4">
-              <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-facebook"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- Footer -->
+  <footer class="bg-gray-900 py-8 mt-16">
+    <div class="text-center text-gray-400 text-sm">
+      © 2025 Baymax! All rights reserved.
     </div>
   </footer>
 
@@ -265,7 +156,7 @@
 
 
   // DOM elements
-  const container = document.getElementById('movies');
+  const container = document.getElementById('episodes');
   const searchBtn = document.getElementById('search-btn');
   const searchBar = document.getElementById('search-bar');
   const themeToggle = document.getElementById('theme-toggle');
