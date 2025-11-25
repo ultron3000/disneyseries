@@ -2,1607 +2,734 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Monsters at Work | Disney+</title>
+  <title>Monsters at Work</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Stream all episodes of Monsters at Work, the Disney+ animated series following the hilarious adventures of Tylor Tuskmon and his fellow monsters at Monsters, Inc.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Rubik:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Marvel:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- HLS.js (from Tukaram for HLS playback support) -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
+
   <style>
-    .gradient-text {
-      background: linear-gradient(90deg, #00C7B7 0%, #FFD700 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #00C7B7 0%, #6E45E2 100%);
-    }
-    
-    .video-header {
-      position: relative;
-      height: 90vh;
-      min-height: 700px;
-      overflow: hidden;
-    }
-    
-    .video-header video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      z-index: 0;
-      object-fit: cover;
-    }
-    
-    .video-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(26,29,46,0.9) 0%, rgba(26,29,46,0.3) 100%);
-      z-index: 1;
-    }
-    
-    .header-content {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .episode-card {
-      transition: all 0.3s ease;
-      perspective: 1000px;
-      transform-style: preserve-3d;
-    }
-    
-    .episode-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-    
-    .episode-card:hover .episode-image {
-      transform: scale(1.08);
-    }
-    
-    .episode-image-container {
-      overflow: hidden;
-      border-radius: 12px 12px 0 0;
-      position: relative;
-    }
-    
-    .episode-image {
-      transition: transform 0.5s cubic-bezier(0.25, 0.45, 0.45, 0.95);
-    }
-    
-    .play-icon {
-      transition: all 0.3s ease;
-      box-shadow: 0 0 30px rgba(0, 199, 183, 0.7);
-    }
-    
-    .episode-card:hover .play-icon {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-    
-    .modal-enter {
-      animation: modalEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-    
-    @keyframes modalEnter {
-      from {
-        opacity: 0;
-        transform: scale(0.9) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-    
-    .disney-logo {
-      width: 120px;
-      filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
-      transition: transform 0.3s ease;
-    }
-    
-    .disney-logo:hover {
-      transform: scale(1.05);
-    }
-    
-    .nav-container {
-      background: linear-gradient(to bottom, rgba(26,29,46,0.9) 0%, rgba(26,29,46,0) 100%);
-      backdrop-filter: blur(5px);
-    }
-    
-    .nav-link {
-      position: relative;
-    }
-    
-    .nav-link:after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 3px;
-      bottom: -5px;
-      left: 0;
-      background: #00C7B7;
-      transition: width 0.3s ease;
-      border-radius: 3px;
-    }
-    
-    .nav-link:hover:after {
-      width: 100%;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(90deg, #00C7B7 0%, #FFD700 100%);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0, 199, 183, 0.4);
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 199, 183, 0.6);
-    }
-    
-    .btn-secondary {
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .episode-badge {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      border-radius: 12px;
-    }
-    
-    .scroll-indicator {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0) translateX(-50%);
-      }
-      40% {
-        transform: translateY(-20px) translateX(-50%);
-      }
-      60% {
-        transform: translateY(-10px) translateX(-50%);
-      }
-    }
-    
-    .character-card {
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .character-card:hover {
-      transform: translateY(-8px) scale(1.03);
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    
-    .section-title {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .section-title:after {
-      content: '';
-      position: absolute;
-      width: 50%;
-      height: 4px;
-      bottom: -8px;
-      left: 0;
-      background: linear-gradient(90deg, #00C7B7 0%, #FFD700 100%);
-      border-radius: 4px;
-    }
-    
-    .testimonial-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-    
-    .testimonial-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .footer-link {
-      transition: all 0.2s ease;
-    }
-    
-    .footer-link:hover {
-      color: #00C7B7;
-      transform: translateX(5px);
-    }
-    
-    .character-animation {
-      animation: float 6s ease-in-out infinite;
-    }
-    
-    .pulse-animation {
-      animation: pulse-slow 3s infinite;
-    }
-    
-    .bounce-animation {
-      animation: bounce-slow 2.5s infinite;
-    }
-    
-    .wiggle-animation {
-      animation: wiggle 1s ease-in-out infinite;
-    }
-    
-    .parallax-bg {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    
-    .carousel-item {
-      transition: transform 0.5s ease, opacity 0.5s ease;
-    }
-    
-    .carousel-item.active {
-      opacity: 1;
-      transform: scale(1);
-      z-index: 10;
-    }
-    
-    .carousel-item.next,
-    .carousel-item.prev {
-      opacity: 0.5;
-      transform: scale(0.9);
-      z-index: 5;
-    }
-    
-    .carousel-item.hidden {
-      opacity: 0;
-      transform: scale(0.8);
-      z-index: 1;
-    }
-    
-    .carousel-nav-dot {
-      transition: all 0.3s ease;
-    }
-    
-    .carousel-nav-dot.active {
-      background-color: #00C7B7;
-      transform: scale(1.2);
-    }
-    
-    .carousel-nav-dot:hover {
-      background-color: #FFD700;
-    }
-    
-    .monster-logo {
-      filter: drop-shadow(0 0 15px rgba(0, 199, 183, 0.5));
-    }
-    
-    .energy-ball {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,199,183,0.8) 0%, rgba(0,199,183,0) 70%);
-      filter: blur(20px);
-      animation: pulse-slow 3s infinite;
-      z-index: -1;
-    }
-    
-    .energy-ball-1 {
-      top: 20%;
-      left: 10%;
-    }
-    
-    .energy-ball-2 {
-      bottom: 15%;
-      right: 10%;
-      animation-delay: 1s;
-    }
-    
-    .door-animation {
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .door-animation:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(0,199,183,0.2) 50%, transparent 100%);
-      transform: translateX(-100%);
-      transition: transform 0.6s ease;
-    }
-    
-    .door-animation:hover:before {
-      transform: translateX(100%);
-    }
-    
-    /* Enhanced Video Player Styles */
-    .video-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      background-color: #000;
-    }
-    
-    .video-container video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      outline: none;
-    }
-    
-    .video-controls {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 10;
-    }
-    
-    .video-container:hover .video-controls {
-      opacity: 1;
-    }
-    
-    .progress-container {
-      width: 100%;
-      height: 6px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 3px;
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
-    
-    .progress-bar {
-      height: 100%;
-      background: #00C7B7;
-      border-radius: 3px;
-      position: relative;
-    }
-    
-    .progress-bar::after {
-      content: '';
-      position: absolute;
-      right: -5px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 12px;
-      height: 12px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    
-    .progress-container:hover .progress-bar::after {
-      opacity: 1;
-    }
-    
-    .controls-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
-    
-    .left-controls, .right-controls {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .control-btn {
-      color: white;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 18px;
-      transition: all 0.2s ease;
-    }
-    
-    .control-btn:hover {
-      color: #00C7B7;
-      transform: scale(1.1);
-    }
-    
-    .volume-container {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .volume-slider {
-      width: 80px;
-      height: 4px;
-      -webkit-appearance: none;
-      appearance: none;
-      background: rgba(255,255,255,0.2);
-      border-radius: 2px;
-      outline: none;
-      opacity: 0;
-      transition: opacity 0.2s ease, width 0.2s ease;
-    }
-    
-    .volume-container:hover .volume-slider {
-      opacity: 1;
-      width: 100px;
-    }
-    
-    .volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      background: white;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    
-    .time-display {
-      color: white;
-      font-size: 14px;
-      font-family: monospace;
-    }
-    
-    .settings-menu {
-      position: absolute;
-      bottom: 60px;
-      right: 10px;
-      background: rgba(26,29,46,0.9);
-      border-radius: 8px;
-      padding: 10px;
-      min-width: 150px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      transform: translateY(10px);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.2s ease;
-      z-index: 20;
-    }
-    
-    .settings-menu.active {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: all;
-    }
-    
-    .settings-item {
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    
-    .settings-item:hover {
-      background: rgba(255,255,255,0.1);
-    }
-    
-    .settings-item.active {
-      color: #00C7B7;
-    }
-    
-    .fullscreen-icon {
-      display: none;
-    }
-    
-    :fullscreen .fullscreen-icon {
-      display: inline-block;
-    }
-    
-    :fullscreen .exit-fullscreen-icon {
-      display: none;
-    }
-    
-    :not(:fullscreen) .fullscreen-icon {
-      display: inline-block;
-    }
-    
-    :not(:fullscreen) .exit-fullscreen-icon {
-      display: none;
-    }
-    
-    /* External Player Container */
-    .external-player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 100;
-      display: none;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .external-player-wrapper {
-      width: 90%;
-      max-width: 1200px;
-      height: 80%;
-      background: #000;
-      border-radius: 8px;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .close-external-player {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      color: white;
-      background: rgba(0,0,0,0.5);
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .external-player-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    
-    @media (max-width: 768px) {
-      .video-header {
-        height: 80vh;
-        min-height: 600px;
-      }
-      
-      .header-content h1 {
-        font-size: 3.5rem;
-      }
-      
-      .carousel-item {
-        min-width: 100%;
-      }
-      
-      .energy-ball {
-        width: 150px;
-        height: 150px;
-      }
-      
-      .volume-slider {
-        display: none;
-      }
-      
-      .settings-menu {
-        min-width: 120px;
-        font-size: 14px;
-      }
-      
-      .external-player-wrapper {
-        width: 95%;
-        height: 60%;
-      }
-    }
-    
-    @media (max-width: 640px) {
-      .video-header {
-        height: 70vh;
-        min-height: 500px;
-      }
-      
-      .header-content h1 {
-        font-size: 2.5rem;
-      }
-      
-      .energy-ball {
-        width: 100px;
-        height: 100px;
-      }
-      
-      .video-controls {
-        padding: 10px;
-      }
-      
-      .control-btn {
-        font-size: 16px;
-      }
-      
-      .time-display {
-        font-size: 12px;
-      }
-      
-      .external-player-wrapper {
-        height: 50%;
-      }
-    }
+    /* PRESERVE original Hawkeye CSS and animations but adjust theme to Loki */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #07060b; }
+    ::-webkit-scrollbar-thumb { background: #9ad34d; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #bfe67a; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes arrowBounce { 0%,100% { transform: translateY(0);} 50% { transform: translateY(5px);} }
+
+    .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+    .pulse-hover:hover { animation: pulse 1.5s infinite; }
+    .arrow-bounce { animation: arrowBounce 2s infinite; }
+
+    .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; } .delay-5 { animation-delay: 0.5s; }
+
+    .glow-effect { position: relative; transition: transform 0.3s ease; }
+    .glow-effect:hover { transform: translateY(-5px); }
+    .glow-effect::after{ content:''; position:absolute; top:0; left:0; right:0; bottom:0; border-radius:12px; box-shadow:0 0 15px rgba(154,211,77,0); transition:box-shadow 0.3s; pointer-events:none;}
+    .glow-effect:hover::after { box-shadow:0 0 20px rgba(154,211,77,0.25); }
+
+    .gradient-text { background: linear-gradient(90deg, #9ad34d, #7f3cff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .marvel-font { font-family: 'Marvel', sans-serif; }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) { .movie-card { width: calc(50% - 1rem); } }
+    @media (max-width: 400px) { .movie-card { width: 100%; } }
+
+    /* Modal player container (Tukaram-style preserved) */
+    #modal-player { position: relative; padding-bottom: 56.25%; height: 0; background: black; }
+    #modal-player video, #modal-player iframe { position:absolute; top:0; left:0; width:100%; height:100%; background:black; }
+
+    /* small Loki tint changes to Hawkeye theme */
+    header { background: linear-gradient(90deg,#081018,#04040a); }
+    .bg-loki { background: linear-gradient(135deg,#7f3cff,#9ad34d); }
+    .loki-accent { color: #9ad34d; }
+    .btn-loki { background: #9ad34d; color: #061217; }
+    .btn-loki:hover { filter: brightness(0.95); }
+    .watchlist-checkbox .checkmark { border: 2px solid #9ad34d; }
+    .progress-bar-fill { background: #9ad34d; }
+
+    /* keep other original Hawkeye styles intact */
+    body { background: #07060b; color: #e6f3e9; font-family: Roboto, system-ui, -apple-system, 'Segoe UI', Arial; }
   </style>
 </head>
-<body class="bg-monsters-dark text-monsters-light font-sans">
-  <!-- Energy Balls Background Effect -->
-  <div class="energy-ball energy-ball-1"></div>
-  <div class="energy-ball energy-ball-2"></div>
-  
-  <!-- External Player Container (hidden by default) -->
-  <div class="external-player-container" id="external-player-container">
-    <div class="external-player-wrapper">
-      <button class="close-external-player" id="close-external-player">
-        <i class="fas fa-times"></i>
-      </button>
-      <iframe id="external-player-iframe" class="external-player-iframe" allowfullscreen></iframe>
-    </div>
-  </div>
-  
-  <!-- Video Header -->
-  <div class="video-header">
-    <video autoplay muted loop playsinline poster="https://lumiere-a.akamaihd.net/v1/images/p_monstersatwork_21543_2f4d1b8a.jpeg">
-      <source src="https://imdb-video.media-imdb.com/vi2435104793/1434659607842-pgv4ql-1623513882835.mp4?Expires=1748811356&Signature=RcboODPbkV1ZmpFfYsR-EofKMuCFm7uXHtWk4Znm3YkAR204eROKULDJMbgW~SzMTRXyuNxRC9BW0Vd~9uvzcKKsIu2Z-x6ZEIWyv1OfSh5icx2pmoKcOphDyDIzvzDf122mJQPk0euxmWpTEUfvInzjwhcz5Sc4~K3sdNZmU-FDztIBGVlKY5ansSyvFcIAUyMYbwyJ2Y2uKlhBCT5rDEOSORzARzvIms11HzgI~WEWguegHL6aldwbUBEp7fZQiKeJ67K0bEO5sKpTbfuc2IOxTpP-gquG-hYiYFqse05cyYRp5AXLQoujKV5zXV5UdiNFuLeSDqPX~CjCU0ISTg__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div class="video-overlay"></div>
-    
-    <div class="header-content">
-      <!-- Navigation -->
-      <div class="nav-container py-5 px-6 lg:px-12">
-        <div class="container mx-auto flex justify-between items-center">
-          <div class="flex items-center space-x-4">
-            <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="disney-logo h-10">
-          </div>
+<body class="bg-black text-gray-100 min-h-screen font-roboto">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-black bg-opacity-90 backdrop-blur-sm border-b border-yellow-600/20 shadow-lg">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-[#7f3cff] to-[#9ad34d] rounded-full flex items-center justify-center pulse-hover">
+         <i class="fas fa-ghost text-black text-xl"></i>
+         <i class="fas fa-dragon text-black text-xl"></i>
 
-          <button class="md:hidden text-2xl text-white focus:outline-none" id="mobile-menu-button">
-            <i class="fas fa-bars"></i>
+        </div>
+        <h1 class="text-2xl font-bold gradient-text marvel-font tracking-wide">Monsters at Work</h1>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <button id="watchlist-btn" class="tooltip p-2 rounded-full hover:bg-gray-800 transition relative">
+          <i class="fas fa-bookmark loki-accent"></i>
+          <span class="tooltip-text">My Watchlist</span>
+        </button>
+        <button id="theme-toggle" class="tooltip p-2 rounded-full hover:bg-gray-800 transition">
+          <i class="fas fa-moon loki-accent"></i>
+          <span class="tooltip-text">Toggle Theme</span>
+        </button>
+        <button id="search-btn" class="tooltip p-2 rounded-full hover:bg-gray-800 transition">
+          <i class="fas fa-search loki-accent"></i>
+          <span class="tooltip-text">Search</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Search Bar (hidden by default) -->
+    <div id="search-bar" class="hidden px-4 pb-4 bg-black/80">
+      <div class="relative">
+        <input id="global-search" type="text" placeholder="Search episodes..." 
+               class="w-full bg-gray-900 border border-[#9ad34d]/30 rounded-full py-2 px-4 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-[#9ad34d] placeholder-gray-400">
+        <i class="fas fa-search absolute left-3 top-3 text-[#9ad34d]"></i>
+      </div>
+    </div>
+    
+    <!-- Watchlist dropdown (hidden by default) -->
+    <div id="watchlist-dropdown" class="hidden absolute right-4 mt-2 w-64 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50 py-2">
+      <div class="px-4 py-2 border-b border-gray-700">
+        <h3 class="font-semibold loki-accent">My Watchlist</h3>
+      </div>
+      <div id="watchlist-items" class="max-h-60 overflow-y-auto">
+        <div class="px-4 py-3 text-center text-gray-400">Your watchlist is empty</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+<main class="container mx-auto px-4 py-6">
+  <!-- Hero Section -->
+  <section class="mb-12 relative overflow-hidden rounded-xl shadow-2xl">
+    <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+    
+    <div class="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+        <!-- Loki hero trailer (YouTube embed) -->
+        <iframe
+          src="https://www.youtube.com/embed/SIKUQQffCNs?autoplay=1&mute=1&loop=1&playlist=SIKUQQffCNs&controls=0&modestbranding=1"
+          frameborder="0"
+          allow="autoplay; fullscreen"
+          class="absolute top-1/2 left-1/2 w-[177.78vh] h-[100vh] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        ></iframe>
+      </div>
+      
+      <div class="absolute bottom-0 left-0 z-20 p-6 md:p-8">
+        <div class="flex items-center mb-2">
+          <span class="bg-[#9ad34d] text-black text-xs font-bold px-2 py-1 rounded mr-2">NEW</span>
+          <span class="text-[#9ad34d] text-sm">Seasons 1–2</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-bold mb-2 gradient-text marvel-font tracking-wide">Monsters at Work</h2>
+        <div class="flex items-center mb-4">
+          <div class="flex items-center mr-4">
+            <i class="fas fa-star loki-accent mr-1"></i>
+            <span class="text-white">8.4</span>
+          </div>
+          <span class="text-gray-300 text-sm mr-4">TV-14</span>
+        </div>
+        <p class="text-gray-300 mb-4 max-w-lg text-sm md:text-base">Mechanic Tylor Tuskmon has big dreams of working his way up the ranks to the Laugh Floor at Monsters Inc.</p>
+        <div class="flex space-x-3">
+          <button id="play-all" class="btn-loki hover:bg-[#8fcf3a] font-semibold py-2 px-6 rounded-full transition flex items-center pulse-hover">
+            <i class="fas fa-play mr-2"></i> Play All
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-info-circle mr-2"></i> Details
           </button>
         </div>
       </div>
-
-      <!-- Title Content -->
-      <div class="container mx-auto px-4 lg:px-12 flex-1 flex items-center">
-        <div class="max-w-4xl">
-          <div class="flex items-center mb-4">
-            <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="h-8 mr-4">
-            <span class="text-white font-semibold tracking-wider">ORIGINAL SERIES</span>
-          </div>
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 gradient-text font-display tracking-tight leading-tight">MONSTERS <span class="text-white">AT WORK</span></h1>
-          <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="bg-monsters-primary text-black px-4 py-1 rounded-full text-sm font-bold">NEW EPISODES</span>
-            <span class="text-gray-300">2021 - PRESENT</span>
-            <span class="text-gray-300">•</span>
-            <span class="text-gray-300">2 SEASONS</span>
-            <span class="text-gray-300">•</span>
-            <span class="text-gray-300">TV-G</span>
-          </div>
-          <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
-            Follow the hilarious adventures of Tylor Tuskmon and his fellow monsters at Monsters, Inc. as they navigate the challenges of making kids laugh in this Disney+ original series.
-          </p>
-          
-          <div class="flex flex-wrap gap-4">
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="scroll-indicator">
-        <i class="fas fa-chevron-down text-white text-3xl animate-bounce"></i>
-      </div>
-    </div>
-  </div>
-
-  
-  <!-- Episodes Section -->
-  <section id="episodes" class="py-20 bg-monsters-dark">
-    <div class="container mx-auto px-4">
-      <div class="flex justify-between items-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-white section-title">EPISODES</h2>
-        <div class="flex items-center space-x-2">
-          <span class="text-gray-400">SEASON</span>
-          <div class="relative">
-            <select id="season-selector" class="bg-monsters-dark border border-gray-700 text-white rounded-full px-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-monsters-primary">
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <i class="fas fa-chevron-down text-gray-400"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div id="season-1" class="episodes-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Season 1 episodes will be added here by JavaScript -->
-      </div>
-      
-      <div id="season-2" class="episodes-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
-        <!-- Season 2 episodes will be added here by JavaScript -->
+      <div class="absolute bottom-4 right-4 z-20">
+        <button id="scroll-down" class="bg-black/50 text-[#9ad34d] rounded-full p-2 border border-[#9ad34d]/30 hover:bg-[#9ad34d] hover:text-black transition">
+          <i class="fas fa-chevron-down arrow-bounce"></i>
+        </button>
       </div>
     </div>
   </section>
+</main>
 
-  <!-- Modal -->
-  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90">
-    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden modal-enter">
-      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-yellow-500 text-2xl transition">
+    <!-- Season Navigation -->
+    <div class="flex items-center justify-between mb-8 border-b border-gray-800 pb-4 container mx-auto px-4">
+      <h3 class="text-xl font-semibold flex items-center">
+        <i class="fas fa-tv loki-accent mr-2"></i>
+        <span class="marvel-font">EPISODES</span>
+      </h3>
+      <div class="flex items-center space-x-2">
+        <!-- Add data-season attributes for filtering -->
+        <button class="season-btn active bg-[#9ad34d] text-black px-3 py-1 rounded-full text-xs font-medium" data-season="1">Season 1</button>
+        <button class="season-btn bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-xs font-medium" data-season="2">Season 2</button>
+        <button class="season-btn bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-xs font-medium" data-season="all">All</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center justify-between mb-8 gap-4 container mx-auto px-4">
+      <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
+
+      </div>
+      
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400 text-sm">Sort by:</span>
+        <select id="sort-select" class="bg-gray-900 border border-gray-700 text-white text-sm rounded-full px-3 py-1 focus:outline-none focus:ring-1 focus:ring-[#9ad34d]">
+          <option>Release Date</option>
+          <option>Episode Order</option>
+          <option>Popularity</option>
+          <option>Duration</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Episodes Grid -->
+    <section class="container mx-auto px-4">
+      <div id="movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <!-- Movie cards inserted by JS -->
+      </div>
+    </section>
+
+
+
+<!-- Bottom Bar -->
+    <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-500">
+    <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/stark_4152" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/channel/UCYwTAs1PRVHbq4LnCHEEicw" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-youtube"></i></a>
+    </div>
+
+  <!-- Playback Modal (preserved from original file) -->
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90 transition-opacity duration-300">
+    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden shadow-2xl transform transition-all duration-300 scale-95">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-[#9ad34d] text-2xl bg-black/50 rounded-full p-2 transition">
         <i class="fas fa-times"></i>
       </button>
       
-      <!-- Enhanced Video Player -->
-      <div class="video-container">
-        <video id="modal-video" class="w-full" poster="https://lumiere-a.akamaihd.net/v1/images/p_monstersatwork_21543_2f4d1b8a.jpeg">
-          Your browser does not support the video element.
-        </video>
-        
-        <!-- Video Controls -->
-        <div class="video-controls">
-          <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-          </div>
-          
-          <div class="controls-row">
-            <div class="left-controls">
-              <button class="control-btn" id="play-pause-btn">
-                <i class="fas fa-play" id="play-icon"></i>
-                <i class="fas fa-pause hidden" id="pause-icon"></i>
-              </button>
-              
-              <div class="volume-container">
-                <button class="control-btn" id="mute-btn">
-                  <i class="fas fa-volume-up" id="volume-on-icon"></i>
-                  <i class="fas fa-volume-mute hidden" id="volume-off-icon"></i>
-                </button>
-                <input type="range" min="0" max="1" step="0.01" value="1" class="volume-slider" id="volume-slider">
-              </div>
-              
-              <div class="time-display">
-                <span id="current-time">00:00</span> / <span id="duration">00:00</span>
-              </div>
-            </div>
-            
-            <div class="right-controls">
-              <button class="control-btn" id="speed-btn">
-                <span id="speed-display">1x</span>
-              </button>
-              
-              <div class="relative">
-                <button class="control-btn" id="settings-btn">
-                  <i class="fas fa-cog"></i>
-                </button>
-                
-                <div class="settings-menu" id="settings-menu">
-                  <div class="settings-item" data-speed="0.5">0.5x</div>
-                  <div class="settings-item" data-speed="0.75">0.75x</div>
-                  <div class="settings-item active" data-speed="1">Normal (1x)</div>
-                  <div class="settings-item" data-speed="1.25">1.25x</div>
-                  <div class="settings-item" data-speed="1.5">1.5x</div>
-                  <div class="settings-item" data-speed="2">2x</div>
-                </div>
-              </div>
-              
-              <button class="control-btn" id="fullscreen-btn">
-                <i class="fas fa-expand fullscreen-icon"></i>
-                <i class="fas fa-compress exit-fullscreen-icon"></i>
-              </button>
-            </div>
-          </div>
+      <div class="relative">
+        <div id="modal-player">
+          <video id="modal-video" class="w-full" controls playsinline>
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div id="video-progress" class="progress-bar w-full">
+          <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div>
         </div>
       </div>
       
       <div class="p-6">
         <div class="flex justify-between items-start mb-4">
           <div>
-            <h3 id="modal-title" class="text-2xl font-bold mb-1 text-white"></h3>
-            <div class="text-gray-400 text-sm">
-              <span>S<span id="season-num"></span> • E<span id="episode-num"></span></span> • <span id="episode-runtime"></span> • <span class="text-yellow-400">★ <span id="episode-rating"></span></span>
+            <h3 id="modal-title" class="text-2xl font-bold mb-1"></h3>
+            <div class="flex items-center text-gray-400 text-sm">
+              <span id="modal-season-ep">S1 • E1</span>
+              <span class="mx-2">•</span>
+              <span id="modal-duration">45 min</span>
             </div>
           </div>
-          <div class="flex space-x-3">
-            <button class="text-gray-400 hover:text-white transition">
-              <i class="fas fa-share-alt"></i>
-            </button>
-            <button class="text-gray-400 hover:text-white transition">
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
-          </div>
+          <label class="watchlist-checkbox">
+            <input type="checkbox" id="watchlist-checkbox">
+            <span class="checkmark"></span>
+          </label>
         </div>
-        <p id="modal-description" class="text-gray-300 mb-6"></p>
-        <div class="flex flex-wrap gap-4">
-          <button id="play-episode" class="btn-primary text-white font-bold py-3 px-8 rounded-full flex items-center transition">
-            <i class="fas fa-play mr-2"></i> PLAY EPISODE
+        
+        <p id="modal-description" class="text-gray-300 mb-6">Loading description...</p>
+        
+        <div class="flex space-x-3">
+          <button id="play-btn" class="bg-[#9ad34d] hover:bg-[#8fcf3a] text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-play mr-2"></i> Play
           </button>
-        </div>
-        <div class="mt-6 pt-6 border-t border-gray-800">
-          <h4 class="text-sm font-semibold text-gray-400 mb-2">STARRING</h4>
-          <p class="text-gray-300 text-sm" id="modal-cast"></p>
-          <h4 class="text-sm font-semibold text-gray-400 mt-4 mb-2">DIRECTED BY</h4>
-          <p class="text-gray-300 text-sm" id="modal-director">Bobs Gannaway</p>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-info-circle mr-2"></i> Details
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <footer class="bg-monsters-dark py-16 border-t border-gray-800">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div>
-          <img src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg" alt="Disney+" class="h-10 mb-6">
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="text-gray-400 hover:text-monsters-primary transition text-xl"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-        <div>
-          
-      </div>
-    </div>
-  </footer>
+  <!-- Loading Spinner -->
+  <div id="loading-spinner" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 hidden">
+    <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#9ad34d]"></div>
+  </div>
 
   <script>
-    // Tailwind config
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            monsters: {
-              primary: '#00C7B7',
-              secondary: '#FF6B6B',
-              dark: '#1A1D2E',
-              light: '#F7FAFC',
-              purple: '#6E45E2',
-              teal: '#00C6B0',
-              yellow: '#FFD700',
-              green: '#2ECC71'
-            }
-          },
-          fontFamily: {
-            sans: ['Poppins', 'sans-serif'],
-            display: ['Rubik', 'sans-serif']
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'bounce-slow': 'bounce 2.5s infinite',
-            'wiggle': 'wiggle 1s ease-in-out infinite'
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-20px)' }
-            },
-            wiggle: {
-              '0%, 100%': { transform: 'rotate(-3deg)' },
-              '50%': { transform: 'rotate(3deg)' }
-            }
-          }
-        }
-      }
-    };
+    /* ------------------------
+       LOKI episodes data (dummy URLs)
+       ------------------------ */
+    const movies = [
+      // Season 1 (6 eps)
+      { title: "Welcome to Monsters, Inc.", season:1, episode:1,
+        video: "https://sri.aesthorium.sbs:443/v4/s93/vv99b/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1212/1031212-h-1d97c7f4eb4d",
+        description: "Tylor Tuskmon arrives for his first day at Monsters, Inc., only to discover the company has switched from scaring to laughing.",
+        duration: "30 min", rating: "8.3", director: "Bobs Gannaway" },
 
-    // Episodes Data
-    const episodes = {
-      season1: [
-        { 
-          title: "Welcome to Monsters, Inc.", 
-          year: 2021,
-          video: "https://macdn.hakunaymatata.com/resource/0338521f2d4153e4300bda7ef710ecee.mp4?Expires=1749928480&Signature=hGs-FTdCRQe8Ub4rbH4fpzo7WDj704AfS~6HC~n75zIp7Eb-PaFFSXC3TC98gmZ6kjFuSlE62N6uyyyMf-ywNp~JYlD3378YSpwlb~rK-rjyZExzSm3x7UkPFF8LBrhctVhVlRaaZKAaqgqeGBPmMSlNpNNWlo7LwCgeM6KsUIKs8aoMzkL~YzOs~29vfsVDSLxnyRH5UzndVm2ed0dkChs4oGD03xV4c-kH2Kn~AUWkFSYM9wBHgrFtfMCGHyVV8HvLM~8nhdIhqvztXbVhmqiz1hneTuF-NkF-Fw8rSDU5-~xhHIRBPtxK7ScXIr9wIJcD~w~W3CDIxj0HwZvxUQ__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1212/1031212-h-1d97c7f4eb4d",
-          runtime: "25 min",
-          rating: "8.5/10",
-          description: "Tylor Tuskmon arrives for his first day at Monsters, Inc., only to discover the company has switched from scaring to laughing.",
+      { title: "Meet MIFT", season:1, episode:2,
+        video: "https://sy6.xylonatech.sbs:443/v4/rqz/kk33m/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1195/1031195-h-facd8990dad3",
+        description: "When Tylor is initiated into MIFT during a bizarre ritual, he wants nothing more than to get away from his odd coworkers. But when an emergency strikes, MIFT kicks into action and Tylor develops a hint of respect for the misfit team.",
           cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Meet MIFT", 
-          year: 2021,
-          video: "https://macdn.hakunaymatata.com/resource/7fac834d761fbebf3237de7d46f2d0fa.mp4?Expires=1749940834&Signature=SmcP8Pe0mh21kNKbLFEY5PtO6kz0F1aFwXTe2VxYvvFlKbkc6sxQDer4ogO~hXH-LMyTEOV7zdYAOTBf-GRfyKuHRgwqXffEoQhPa5AadVt2NNemih-xQ74GKjDSs4SloddQBZ7BLkm9dvu4R-LVsBx4QNa5Rk-qOJScOswRSlGIqAiBJwhuL69ogUJD9pDzWYXRFH-rz414tQrEyZ1O6fa4Nu4qWXkQOu~c7X8ndLbw39l6VhvUGKtNtBe5wOlWdmLGo5uxQnrAwWX-ugKARPNn18D5ScwtsmsPzrUefRxuCkQ0xbq0twRdvw6vLnr9NLU7p~2nj6t4xAYcVl7o0g__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1195/1031195-h-facd8990dad3",
-          runtime: "22 min",
-          rating: "8.2/10",
-          description: "When Tylor is initiated into MIFT during a bizarre ritual, he wants nothing more than to get away from his odd coworkers. But when an emergency strikes, MIFT kicks into action and Tylor develops a hint of respect for the misfit team.",
+        duration: "30 min", rating: "8.2", director: "Bobs Gannaway" },
+
+      { title: "The Damaged Room", season:1, episode:3,
+        video: "https://spx.aurorionstudio.shop:443/v4/s93/aabbl/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/3414/1033414-h-b77c35a6cd09",
+        description: "When a human baby's room is damaged by a Jokester, Tylor has his first experience working with MIFT on the repairs. While the room is repaired, Mike and Sulley must take care of a human baby.",
+        duration: "30 min", rating: "8.4", director: "Bobs Gannaway" },
+
+      { title: "The Big Wazowskis", season:1, episode:4,
+        video: "https://shh.sunvalleydigitalworks.cfd:443/v4/s93/iiqqm/index-f1-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5851/1035851-h-7e153999a35f",
+        description: "Hoping to get in good with Mike, Tylor signs MIFT up to be Mike's bowling team for the annual Monsters, Inc. Bowl-off-a-thon - only to discover that everyone at MIFT stinks at bowling.",
+        duration: "30 min", rating: "8.1", director: "Bobs Gannaway" },
+
+      { title: "The Cover Up", season:1, episode:5,
+        video: "https://s36.auroriacollective.cyou:443/v4/onm/ffcc9/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/7259/1037259-h-9ed6400e949d",
+        description: "Tylor and Duncan accidentally cause a city-wide power outage and must do all they can to cover up from an inspector.",
+        duration: "30 min", rating: "8.7", director: "Bobs Gannaway" },
+
+      { title: "The Vending Machine.", season:1, episode:6,
+        video: "https://sui.drivonaesthetic.cyou:443/v4/rqz/bbaaj/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/9136/1039136-h-ffdc56bd6a4c",
+        description: "Tylor's job is threatened when he breaks MIFT's favorite vending machine on the day Fritz must fire someone due to budget cuts. Meanwhile Mike tries boosting morale at Monsters, Inc.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+         { title: "Adorable Returns", season:1, episode:7,
+        video: "https://sri.artanix.sbs:443/v4/luy/ppeec/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1553/1041553-h-b046bae8f7b4",
+        description: "Tylor mistakenly allows the banished Adorable Snowman to return to Monsters, Inc. Fearing he'll also be banished, Tylor struggles to get him back before he's discovered. Val searches for the secret as to why the Yeti was banished.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+         { title: "Little Monsters", season:1, episode:8,
+        video: "https://sri.auroriacollective.cyou:443/v4/rqz/ppeem/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/3435/1043435-h-b7b896e22979",
+        description: "Tylor sees an opportunity to get promoted as Jokester during Mini-Monster Day at Monsters, Inc. when he is paired with Ms. Flint's daughter. Can he get her to laugh?",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+         { title: "Bad Hair Day", season:1, episode:9,
+        video: "https://sad.corvani.cyou:443/v4/onm/33kke/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/7015/1047015-h-aded01e434e4",
+        description: "Abandoning his dream of becoming a Jokester, Tylor sets his sights on becoming the perfect MIFTer. But when he loses the sacred hair of David, a former employee, Tylor must get it back before the MIFT team finds out.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+         { title: "It's Laughter They're After", season:1, episode:10,
+        video: "https://sui.bellevianetwork.sbs:443/v4/rqz/oommt/index-f2-v1-a1.txt",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/9925/1049925-h-f88d28dda36c",
+        description: "Tylor feels torn about leaving MIFT when he's promoted to Jokester. Mike and Sulley must generate more laugh power to save the factory from being shut down.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+      // Season 2 (6 eps)
+      { title: "A Monstrous Homecoming", season:2, episode:1,
+        video: "https://sy6.florenda.online:443/v4/is3/33k1l/index-f2-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/AvuKq5VzuGyE8FND1DiyuRVhHSJ.jpg",
+        description: "Tylor returns from vacation to find Monsters, Inc. has implemented some surprising new changes.",
           cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "The Damaged Room", 
-          year: 2021,
-          video: "https://vgorigin.hakunaymatata.com/resource/f88979d5a4d1fe14300bdffcb3945961.mp4?Expires=1749940875&KeyName=wefeed&Signature=40vdQ8IPwsLNRWBI-kblQTBPXpg04SEIDBQJBnxG5n3aS9SPSY7rCNd1l--d3fnjLrjDB48oGqPy_xFOAkZ9Bg",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/3414/1033414-h-b77c35a6cd09",
-          runtime: "24 min",
-          rating: "8.0/10",
-          description: "When a human baby's room is damaged by a Jokester, Tylor has his first experience working with MIFT on the repairs. While the room is repaired, Mike and Sulley must take care of a human baby.",
+        duration: "30 min", rating: "8.0", director: "Bobs Gannaway" },
+
+      { title: "The C.R.E.E.P. Show", season:2, episode:2,
+        video: "https://sy6.azurafield.space:443/v4/djx/ffczx/index-f1-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/dv1KBvjYlCJFTn2xlO1M6637oXl.jpg",
+        description: "Tylor is assigned to mentor a new recruit, but the eager young monster has some unconventional ideas.",
           cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "The Big Wazowskis", 
-          year: 2021,
-          video: "https://macdn.hakunaymatata.com/resource/e36baa424d3b7c64788faeffbdbb9e5a.mp4?Expires=1749940908&Signature=ivi12f-G5audMJ3ey3J-Hjj7siVgsaePZ8jgCyRmB2pXR8QWIQQOFZeoIFx0O1549dasqTUus16ZzPN4r7fj921Xu2eArvJ7sKdIfQNPEos836oowy~DAN77zPMhaz~j0USRYjhhnklsOaNxlNGrEmK~EN~Ols0gzoEHL3cBNqNQyFROUznweE-EouAsWeM0k7YWloFeu~wnpoao1XLzfSwOCdpCmOM1qCq3Es1XthBPMSZC94piL3~irDe4BHXSs7NCOQoDsCY85Lny~AYjsxzluF1S4-D38tjjbxeYoAmKbAw5-54-j7-db1SQHktoTdk600be~ZLeydZc-hLUiw__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5851/1035851-h-7e153999a35f",
-          runtime: "23 min",
-          rating: "8.3/10",
-          description: "Hoping to get in good with Mike, Tylor signs MIFT up to be Mike's bowling team for the annual Monsters, Inc. Bowl-off-a-thon - only to discover that everyone at MIFT stinks at bowling.",
-          cast: "Ben Feldman, John Goodman, Mindy Kaling",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "The Cover Up", 
-          year: 2021,
-          video: "https://macdn.hakunaymatata.com/resource/0b945861b6d25a3e02e7a36a9be866c3.mp4?Expires=1749940929&Signature=cxr81uA0dfSc36v44InFrl-9y0jsKnEy84phKj4WOf173Vvt95PgewbMe0uxzCd6fikiPkRd77KdI8z9Z8ZoLyAKUf1WppRAX7r0CLwy9sWxsckOXHphcXkfj9h7hE6cmzUMM34gkK-9-t2rwqqXoGGMK4u39IBnxWbJwM~eTUq-O2ojmGMMEIJ~HC5FzJn0qX-fqRJuDwRYOlLpHJfKzxu7EZlW5gBK2dqJZc~xevyoXs2v3BdYYrMiCgpLkQT-7EAda8K-g6gGLJjTa-zZ1s0HDF1wvdBlt1DeETAevFZ74vIZKReAzFJ4tgYbQfYSDNJE4qvVhOnV8JgUYM4Bhw__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/7259/1037259-h-9ed6400e949d",
-          runtime: "25 min",
-          rating: "8.1/10",
-          description: "Tylor and Duncan accidentally cause a city-wide power outage and must do all they can to cover up from an inspector.",
+        duration: "30 min", rating: "8.1", director: "Bobs Gannaway" },
+
+      { title: "Setting the Table", season:2, episode:3,
+        video: "https://sy6.stellarpathventures.shop:443/v4/tab/ppelb/index-f2-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/4ApMtPTY44VFkbLJLLeP5ftHbPH.jpg",
+        description: "Monsters, Inc. faces competition from a new laugh-collecting company with questionable methods.",
           cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "The Vending Machine", 
-          year: 2021,
-          video: "https://macdn.hakunaymatata.com/resource/4b002a9a7e6170b1d70ec2df7472b0d8.mp4?Expires=1749940950&Signature=SC7N7BFxixDRban33ndoSCFoyqas6VK0KNIkuWfn0DhtrUtfyWJiRKWLsa9FbWKR9LLxMoQKiJ4VdBqhnATU2cQlvtaWB~BqyJVYv-rJ3CNrerFNkHaj8z~~73whxn1vFZbzSPbGErUNpZv0jDFzUhVfn3PuJI0t-Dp1Rw97nWAkYoEq6oOzmNlGOpExCim~otyEL8tj69Gm6YLL6gngq7qXoeT0noPJxm7Qn6fChZuF6zLZdzI~jQpRwLBLEB5GgzPFqKaCotXimNnd~G48odSClxTDeqUy1C~Tln5EqylHsLOs7VrCGdZ8FrKw8jsxnAbIV9TxKoOuH2A84wzHpA__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/9136/1039136-h-ffdc56bd6a4c",
-          runtime: "26 min",
-          rating: "8.7/10",
-          description: "Tylor's job is threatened when he breaks MIFT's favorite vending machine on the day Fritz must fire someone due to budget cuts. Meanwhile Mike tries boosting morale at Monsters, Inc.",
+        duration: "30 min", rating: "8.2", director: "Bobs Gannaway" },
+
+      { title: "Opening Doors", season:2, episode:4,
+        video: "https://sui.glowfield.space:443/v4/is3/ppelz/index-f2-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/jeDkvSSpUEXWlggPD85OIs4gSj1.jpg",
+        description: "Tylor and Val discover a mysterious door in the basement that leads to unexpected adventures.",
           cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Adorable Returns", 
-          year: 2021,
-          video: "https://vgorigin.hakunaymatata.com/resource/15ed01b95bf9c7673cc58f7be8dadd9e.mp4?Expires=1749940973&KeyName=wefeed&Signature=bbm81lfDzG5iWdmF5bYz6tAq_nc27NjUaksmpJQ2PgVSKEKOiXSSpYjolu9fSVyf5eUxHjF5ZvHWlmcDcVLWBg",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/1553/1041553-h-b046bae8f7b4",
-          runtime: "24 min",
-          rating: "8.4/10",
-          description: "Tylor mistakenly allows the banished Adorable Snowman to return to Monsters, Inc. Fearing he'll also be banished, Tylor struggles to get him back before he's discovered. Val searches for the secret as to why the Yeti was banished.",
+        duration: "30 min", rating: "8.2", director: "Bobs Gannaway" },
+
+      { title: "It's Coming from Inside the House", season:2, episode:5,
+        video: "https://syr.aurorionbranding.site:443/v4/hld/uull1/index-f2-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/sBsVrEth6dYqb9AAiY5lRc64yKP.jpg",
+        description: "Monsters, Inc. hosts an interdepartmental competition with outrageous challenges and hilarious results.",
           cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Little Monsters", 
-          year: 2021,
-          video: "https://vgorigin.hakunaymatata.com/resource/62ff7516999a67ae4a03f5ff2bec155b.mp4?Expires=1749941012&KeyName=wefeed&Signature=yeNH8sCviPIn-DdK1ysqiPRvfkcoaRd1Mli18jc2uHLlG8Ot4WueWCO600iMoa8F-AV9-pM9hd4vsx1KL3cFDg",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/3435/1043435-h-b7b896e22979",
-          runtime: "27 min",
-          rating: "9.0/10",
-          description: "Tylor sees an opportunity to get promoted as Jokester during Mini-Monster Day at Monsters, Inc. when he is paired with Ms. Flint's daughter. Can he get her to laugh?",
+        duration: "30 min", rating: "8.3", director: "Bobs Gannaway" },
+
+      { title: "Field of Screams", season:2, episode:6,
+        video: "https://s6mb.glowfield.space:443/v4/s93/11ttt/index-f2-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/hBPdtAd722e9zPCEhbnUHNBaudz.jpg",
+        description: "When someone steals the company's entire laugh supply, Tylor and the team must track down the culprit.",
           cast: "Ben Feldman, Steve Buscemi, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Bad Hair Day", 
-          year: 2021,
-          video: "https://macdn.hakunaymatata.com/resource/3127bf4929e09eef1c3e41a80fd7e9de.mp4?Expires=1749941036&Signature=K-pbIW-LVs55bZem1rOe0mji221QFBHlLE-PMX104I4InQFyLv6C7yIXxpRhs6MzqKYez0jkOUYsolo2qNoMVhQCBaixcoKB66Db9TABANyoRCn5aCteS~IKM0v5u9O6mpQKYLMCAFeQk40ltnxurlSAh3iOWK0KV23kdIGe670UwpOYg37BORhFvayQmte6kBRTB~d1V-iTyI2h2M6EK2so451MeAoDlvPrdG5GJjWrtX59frX3aT1fZ80UvIcX84QbWYOYFpXDKDoNUC2IvnA7j-Z00Regl8up~X~rVn28vVdUicQrTr2ceZmf5pn0sYB9qcYetPB0Vi~1T~BkdA__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/7015/1047015-h-aded01e434e4",
-          runtime: "25 min",
-          rating: "8.6/10",
-          description: "Abandoning his dream of becoming a Jokester, Tylor sets his sights on becoming the perfect MIFTer. But when he loses the sacred hair of David, a former employee, Tylor must get it back before the MIFT team finds out.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+        { title: "Monsters in the Dark", season:2, episode:7,
+        video: "https://soq.aurisnova.shop:443/v4/rqz/rrhh1/index-f1-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/8oLMad8cXwmcS8duLe8r1zxHKrS.jpg",
+        description: "The team attends a monster convention where they encounter old friends and unexpected rivals.",
           cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "It's Laughter They're After", 
-          year: 2021,
-          video: "https://macdn.hakunaymatata.com/resource/21b9381f2b37944459e70e99dc2b5c57.mp4?Expires=1749941061&Signature=F0mc7KUV7gV8Q2vuvSNqEOuExOL92OUlvTtJ0CPc4DMXqXPK31T87iK-0VsEKqdGYRvyKUYK-ut8DNlNuqaDNaeuHVx~go6uMjIvxtC~H2Mz6byxO-vNwBMVOAugSi-SUgrmsJGUGjjMn9cAp~tdC8CfDW~LvEIX8vwhb5926tlW1OGRK~2a0oeNbZd3Y7LAzVKMiH436cnWxC7O1nMDrqFLXvZCaVshN7F634hA2kndewM01cFEhbkxXhQmrb-WxSNn6MN1eYTcaDvvuPJb4iajXZGhGCcErUbMMS80a~LFWoGY4-RjpyHO0-NgcNr0ftH1N6wmDhyvw7uGW2xbyg__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/9925/1049925-h-f88d28dda36c",
-          runtime: "28 min",
-          rating: "9.2/10",
-          description: "Tylor feels torn about leaving MIFT when he's promoted to Jokester. Mike and Sulley must generate more laugh power to save the factory from being shut down.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+        { title: "Lights! Camera! Chaos!", season:2, episode:8,
+        video: "https://s6mb.ellionhealth.cyou:443/v4/x68/yy66e/index-f2-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/sTu9SbjnLWAv3wwBTNUQmTMhcf6.jpg",
+        description: "A reporter comes to Monsters, Inc. to interview the team, but the article doesn't go as planned.",
           cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        }
-      ],
-      season2: [
-        { 
-          title: "A Monstrous Homecoming", 
-          year: 2023,
-          video: "https://vgorigin.hakunaymatata.com/resource/f2312921f3440863f7057cee077c0cfb.mp4?Expires=1750793259&KeyName=wefeed&Signature=n-2H8w537uDfeyBDO89sWA3K5zSznkHEMkRxgGRHAqCSOIrNbUsHZKCbfRYIM-r-ckJLFw5XewJriaOytOLOCw",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/AvuKq5VzuGyE8FND1DiyuRVhHSJ.jpg",
-          runtime: "26 min",
-          rating: "8.7/10",
-          description: "Tylor returns from vacation to find Monsters, Inc. has implemented some surprising new changes.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+        { title: "Descent into Fear", season:2, episode:9,
+        video: "https://s36.carvoni.cyou:443/v4/is9/lluur/index-f2-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/oA2uMjqztcB9bKBzG8gY9GUn2th.jpg",
+        description: "A magical accident causes Tylor and Mike to switch bodies, leading to hilarious identity confusion.",
           cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "The C.R.E.E.P. Show", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/49e55290c21e94442840fccdf2a56623.mp4?Expires=1750794130&Signature=ycVVqph0w7A90AlSBcm1OjQYAmtzetjTTpi7UQm9A6aWqh1PE1WecBih1OR34DGFzH7LG3sLAVmJaQCsQRhMSmEjIkG9LQgzxYtR6au~WC-lPZRDm2MbH0M08PGrYfpMVfuiuj-3IZVH8hZkNY7fjrTVJA3oSj4k6rRGl41K9FC4cdUB3aVi~X8A9IrQzekYLIr03MLNy3k8LVC0ZIRriEPYm19x7TowwF-L6do5sqkJqtUa24ogl32uYn4iTys6T4gFDb9ziyEm5ArXLvPLhMd889moNWWq~3ODB6WCfG4jb1KYxLXgIS6ep0T513PrFPWbLCmf~bLhJ6pG0WR1iQ__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/dv1KBvjYlCJFTn2xlO1M6637oXl.jpg",
-          runtime: "24 min",
-          rating: "8.5/10",
-          description: "Tylor is assigned to mentor a new recruit, but the eager young monster has some unconventional ideas.",
-          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Setting the Table", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/284f149fee4e6228636cb37153e69bdb.mp4?Expires=1750797408&Signature=iw5wCGHasOlJAP6etSffkId~WOrKZNVZAgC7F83QdvA3z3xPgg~h12PncXInhi9wKB71JDqkigwsrc5mZkHguQNq9xV9qDzfJGdh2Uoiyimh~SG3HU0Ax7-NjwHxg-9b0jG2T4c--f8~KSLCd-PtiDzD~l5LnnXpSJFHhVz2aajEdy7NhZszrHhiXX85O-f16k2OPZSbMQ24FifVBdhjlb3yqYPZtvkBzktRdPtxG-131nzmj3uKumwsIUsMv~e5yR65g~vCBAhz2WPIPr5ZEmFHAm8E3iyaKRBY4IOdxADaDNpwHlWvvW2aNctyF4SH~wS8Sle1JMWQaO-F6DqRag__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/4ApMtPTY44VFkbLJLLeP5ftHbPH.jpg",
-          runtime: "25 min",
-          rating: "8.8/10",
-          description: "Monsters, Inc. faces competition from a new laugh-collecting company with questionable methods.",
-          cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Opening Doors", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/59d29965f5394e150f01e0893b5dd975.mp4?Expires=1750797155&Signature=utXU5ZnKI6SORTyyh0NKRYCqJX1~9CzrcpC~Ddh44UErXCkyy8f2QszG4w2H5W1lzBAcYPjIft88y5fo3SizdKi1RoY~NoIfbsqWz44iBQe2Of4gcicDnBW7cSn8s85bSpvqyB18HHJ0ni9lTtTfcpv76oEaGfnNZM3PucfkWt3vQaB6Dkpor7zqF56fVb8LWu8hyg90Qm8OmJyjeHmL7vrK58Y75N0HXRRmxMFteFPXU0P7HhidKqihu3piLYVGvgCvlaHXdvFDpG4SzfcaT789Q1L70UM1-kQDrU2DtxYEsKRdnx-U0lRNGYKwhYlqWgxEeF5Mvx~fKu7nzpAC3g__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/jeDkvSSpUEXWlggPD85OIs4gSj1.jpg",
-          runtime: "27 min",
-          rating: "9.1/10",
-          description: "Tylor and Val discover a mysterious door in the basement that leads to unexpected adventures.",
-          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "It's Coming from Inside the House", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/1369cdc654eeb5e38d961c8c9613a36d.mp4?Expires=1750797449&Signature=XAERLOQrfftMc7mXTJqP5VDyNIpkSSU16yyNGf7OsWvnZHS7yoReGMA5i9GX9xRiGeFgfy~1SbySW5dxKWaiEHd5lVP89IkqwRVhmkXmHB3HMHc6YYBuOhwsBMZrww6pJfzOx8I1gDJ16PH0LGHOJADEK4bCv7j-C9pCE3BeO~zUQNeWRrR27QQleUapoR9Mg-4jc73FM5pq2oP8L31u3SE6s54pNLpU5VLkEJ8sKrfle6svKsSxjLb5DPyL0XX3xSIUdO2cEsHoE5fpIAXJV3qR62e~PPmKsZNHmMu-dMbt9ZSLGYLsrQ00nKDXP53ZeV33PDBJ6rcO-unDUIx6xQ__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/sBsVrEth6dYqb9AAiY5lRc64yKP.jpg",
-          runtime: "26 min",
-          rating: "8.9/10",
-          description: "Monsters, Inc. hosts an interdepartmental competition with outrageous challenges and hilarious results.",
-          cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Field of Screams", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/66babf7b61e63858e7ff44b21b214bd8.mp4?Expires=1750797470&Signature=NCKC5vJe4nHp3N6Ns0eGH0OVRAmc0mpvolWOe-wgRXZTxcEeDWHqd17GjwoPkWEmJzvf2rXD~SeBMHvbPfsCwt2MArVa4oJ8HMvD0ai2baq1Gxv0U58~WJdApJAjL2lZSS9BYtHdakldbwRTgGE1T81aAfsMlDTWzzVW0HO44Yq9jXpF9C7b7b1lOKi3VHlOjG9aqoRpWVqrIZ3vlrxnra4rTjoGf5R4gXn2EHTqOmTmTZLuYa6W7iS00ZwgS1Z2XXWukBCKjo8kFu8FGhqH6W5jxU~C-pzSIy3LZMzQ2xNJuZhWqtdorB5R7Q1~NgcnAMidHI7Uts4RoNBZ6K007g__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/hBPdtAd722e9zPCEhbnUHNBaudz.jpg",
-          runtime: "28 min",
-          rating: "9.3/10",
-          description: "When someone steals the company's entire laugh supply, Tylor and the team must track down the culprit.",
-          cast: "Ben Feldman, Steve Buscemi, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Monsters in the Dark", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/501dbf40b3e571eac56fcd25cf9dd3b0.mp4?Expires=1750797491&Signature=RnsciGaH7nUdGvTQ0l9zPDMnLmpj6WN4luxQSxT9sflvza6Wxhk4ZDpPS0Gq1SbUx1HfgMp-QqEEM5-5hfU5-5AVsYDcz10VaSqaAAtrV6cElmP78MdgH8664xyhGr5Ydt80SxYXZe16PjqcEmmJn6e4ta556IgGz0OdzMavDBn1MtzaE7121bwWbDkkLDMlo~a4vEStoka-YDnlQYingqK-vxIcUQrwwjW01C~Wx7nFcI7K3ie4Ec0VBqFE9boXKK-taf5T-L6sm7XaLikTyVa9WLfp8acJGbfPwxFfK2WYyHNWgwBPQr6lL-UEevixOlOgR8l~aHezQhxksA8J4g__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/8oLMad8cXwmcS8duLe8r1zxHKrS.jpg",
-          runtime: "25 min",
-          rating: "8.6/10",
-          description: "The team attends a monster convention where they encounter old friends and unexpected rivals.",
-          cast: "Ben Feldman, Kelly Marie Tran, Henry Winkler",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Lights! Camera! Chaos!", 
-          year: 2023,
-          video: "https://vgorigin.hakunaymatata.com/resource/5942a784c2dd9eff2665b6e897d05fd9.mp4?Expires=1750797519&KeyName=wefeed&Signature=t7pyXd_iN2g0nLSvzDTdrKmPB_hiarei4DqGMMlbp6REQ_EUZnID-PuILQ13gw27V5q1pOsRG3cptW67ypp3Dg",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/sTu9SbjnLWAv3wwBTNUQmTMhcf6.jpg",
-          runtime: "24 min",
-          rating: "8.4/10",
-          description: "A reporter comes to Monsters, Inc. to interview the team, but the article doesn't go as planned.",
-          cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Descent into Fear", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/c7a61cea50745643cc1ec0bbecf86316.mp4?Expires=1750797540&Signature=ypE3JoH0x7uAo~mpkg6TqH95AI2bxcEZAO0ZJoNAKj~cpNeEhGIAszRQ858XxJAshd4fFnHXv8rX3MGvkqf31ESpfK4sIn97JJPpYm5aIrBMQKxsGxEmHJvTwUStcaBNET-2C7~tDaM-zgyUsEoqHgy~27Bi88swqML0s7XawY-l3yB~48yU94ENbH76O4OgyQOa7ZM6~nUgjva0B2Bo~KMGEd1t5iqHJ0MBi~-DzQN7Ueh6gsWXroXyCpvYaRe8IIpeT2Fw~RzJybZrlLceMmM~nJe2M~OIJK4nC0jW4FtxLitC8iUdhWOYcPe2HtoBU3yM-aHRDSCxSAek6U7IdQ__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/oA2uMjqztcB9bKBzG8gY9GUn2th.jpg",
-          runtime: "27 min",
-          rating: "9.0/10",
-          description: "A magical accident causes Tylor and Mike to switch bodies, leading to hilarious identity confusion.",
-          cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        },
-        { 
-          title: "Powerless", 
-          year: 2023,
-          video: "https://macdn.hakunaymatata.com/resource/b9dfbd8e7f014f68643c0389c8bded4a.mp4?Expires=1750797557&Signature=2oqUr-HYVvatZHU-aTtkyYHDi-RX2SyMRyQTu00oH7nnzIUMBShwUUvTM4APNKnchYgKJUpa1wieCeonkSV45vwEvHa~d~Iq4KWo4gXxoPbOmjfwEwWtMLzWeylHjmwuuKAZeLlZ46bNTvknTzDK31etIrSdRem6ZUSOhHYK93oWXAtg2kbhvIWyG3cvwxHSSGI3CCfQcgBBg7nnhMDI3q9SxPKJN2EcnBoqwynbCkYYDaJE0~5ep9vDBDmLrsjaiwKp~2HFlDSpcIocL-gg53gy5b3fGN6C-SDIHc72fGdJqfxDToTRMyzSzIP7yMklWyLflHM0OJ-l11zF~H58AA__&Key-Pair-Id=KMHN1LQ1HEUPL",
-          image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/5v5z2vL9Jgwzue0xWpshZxl6VRD.jpg",
-          runtime: "30 min",
-          rating: "9.5/10",
-          description: "The season finale reveals a shocking new direction for Monsters, Inc. that will change everything.",
-          cast: "Ben Feldman, Billy Crystal, John Goodman",
-          director: "Bobs Gannaway"
-        }
-      ]
-    };
-    
-    // DOM Elements
-    const season1Container = document.getElementById('season-1');
-    const season2Container = document.getElementById('season-2');
-    const seasonSelector = document.getElementById('season-selector');
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+
+        { title: "Powerless", season:2, episode:10,
+        video: "https://sad.mindspireagency.sbs:443/v4/rqz/jjzzc/index-f1-v1-a1.txt",
+        image: "https://wsrv.nl/?url=https://image.tmdb.org/t/p/original/5v5z2vL9Jgwzue0xWpshZxl6VRD.jpg",
+        description: "The season finale reveals a shocking new direction for Monsters, Inc. that will change everything.",
+        duration: "30 min", rating: "8.5", director: "Bobs Gannaway" },
+    ];
+
+
+
+    /* ------------------------
+       DOM references & preserved functions from original file
+       ------------------------ */
+    const container = document.getElementById('movies');
+    const searchBtn = document.getElementById('search-btn');
+    const searchBar = document.getElementById('search-bar');
+    const themeToggle = document.getElementById('theme-toggle');
+    const watchlistBtn = document.getElementById('watchlist-btn');
+    const watchlistDropdown = document.getElementById('watchlist-dropdown');
+    const watchlistItems = document.getElementById('watchlist-items');
     const playbackModal = document.getElementById('playback-modal');
     const closeModal = document.getElementById('close-modal');
-    const modalVideo = document.getElementById('modal-video');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
-    const seasonNum = document.getElementById('season-num');
-    const episodeNum = document.getElementById('episode-num');
-    const episodeRuntime = document.getElementById('episode-runtime');
-    const episodeRating = document.getElementById('episode-rating');
-    const episodeCast = document.getElementById('modal-cast');
-    const playEpisodeBtn = document.getElementById('play-episode');
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    
-    // Enhanced Player Elements
-    const progressBar = document.getElementById('progress-bar');
-    const progressContainer = document.querySelector('.progress-container');
-    const playPauseBtn = document.getElementById('play-pause-btn');
-    const playIcon = document.getElementById('play-icon');
-    const pauseIcon = document.getElementById('pause-icon');
-    const muteBtn = document.getElementById('mute-btn');
-    const volumeOnIcon = document.getElementById('volume-on-icon');
-    const volumeOffIcon = document.getElementById('volume-off-icon');
-    const volumeSlider = document.getElementById('volume-slider');
-    const currentTimeDisplay = document.getElementById('current-time');
-    const durationDisplay = document.getElementById('duration');
-    const speedBtn = document.getElementById('speed-btn');
-    const speedDisplay = document.getElementById('speed-display');
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsMenu = document.getElementById('settings-menu');
-    const fullscreenBtn = document.getElementById('fullscreen-btn');
-    
-    // External Player Elements
-    const externalPlayerContainer = document.getElementById('external-player-container');
-    const externalPlayerIframe = document.getElementById('external-player-iframe');
-    const closeExternalPlayer = document.getElementById('close-external-player');
+    const episodeNum = document.getElementById('modal-season-ep');
+    const modalDuration = document.getElementById('modal-duration');
+    const playBtn = document.getElementById('play-btn');
+    const watchlistCheckbox = document.getElementById('watchlist-checkbox');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const scrollDownBtn = document.getElementById('scroll-down');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const seasonBtns = document.querySelectorAll('.season-btn');
+    const modalPlayer = document.getElementById('modal-player');
+    const globalSearch = document.getElementById('global-search');
+    let currentHls = null;
+    let currentMovieIndex = null;
 
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', function() {
-      // Render episodes
-      renderEpisodes();
-      
-      // Set up event listeners
-      setupEventListeners();
-      
-      // Initialize video player
-      initVideoPlayer();
-    });
+    function isHls(u) {
+      if (!u) return false;
+      return u.includes('.m3u8') || u.includes('index-') || /index.*\.txt/i.test(u) || u.includes('manifest') || u.includes('master.m3u8');
+    }
+    function isMP4(u) { return /\.mp4($|\?)/i.test(u || ''); }
+    function isYouTube(u) { return !!(u && (u.includes('youtube.com') || u.includes('youtu.be') || u.includes('/embed/'))); }
 
-    // Render episodes for both seasons
-    function renderEpisodes() {
-      // Season 1
-      episodes.season1.forEach((episode, index) => {
-        const card = createEpisodeCard(episode, 1, index + 1);
-        season1Container.appendChild(card);
-      });
-      
-      // Season 2
-      episodes.season2.forEach((episode, index) => {
-        const card = createEpisodeCard(episode, 2, index + 1);
-        season2Container.appendChild(card);
-      });
+    function resetPlayerContainer() {
+      if (currentHls) { try { currentHls.destroy(); } catch(e) {} currentHls = null; }
+      modalPlayer.innerHTML = `<video id="modal-video" class="w-full" controls playsinline>Your browser does not support the video tag.</video>`;
+      attachVideoListeners();
     }
 
-    // Create an episode card element
-    function createEpisodeCard(episode, season, episodeNumber) {
-      const card = document.createElement('div');
-      card.className = 'episode-card bg-monsters-dark/50 rounded-xl overflow-hidden hover:shadow-lg transition duration-300 border border-gray-800 hover:border-monsters-primary/50 cursor-pointer';
-      card.innerHTML = `
-        <div class="episode-image-container relative">
-          <img src="${episode.image}" alt="${episode.title}" class="episode-image w-full h-48 md:h-56 object-cover">
-          <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-            <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-monsters-primary rounded-full w-14 h-14 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-              <i class="fas fa-play text-white text-xl"></i>
-            </div>
-          </div>
-          <span class="absolute top-3 right-3 episode-badge text-white text-xs px-3 py-1 font-medium">${episode.runtime}</span>
-        </div>
-        <div class="p-5">
-          <div class="flex justify-between items-start mb-2">
-            <h2 class="font-bold text-lg text-white">${episode.title}</h2>
-            <span class="text-yellow-400 text-sm font-medium">${episode.rating}</span>
-          </div>
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-400">S${season} • E${episodeNumber} • ${episode.year}</p>
-            <button class="text-gray-400 hover:text-monsters-primary transition">
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
-          </div>
-        </div>
-      `;
-      
-      card.addEventListener('click', () => {
-        openModal(episode, season, episodeNumber);
-      });
-      
-      return card;
-    }
-
-    // Set up all event listeners
-    function setupEventListeners() {
-      // Season selector
-      seasonSelector.addEventListener('change', function() {
-        if (this.value === '1') {
-          season1Container.classList.remove('hidden');
-          season2Container.classList.add('hidden');
-        } else {
-          season1Container.classList.add('hidden');
-          season2Container.classList.remove('hidden');
-        }
-      });
-      
-      // Modal close button
-      closeModal.addEventListener('click', closeModalHandler);
-      
-      // Play episode button
-      playEpisodeBtn.addEventListener('click', playEpisodeHandler);
-      
-      // Mobile menu button
-      mobileMenuButton.addEventListener('click', toggleMobileMenu);
-      
-      // Close external player button
-      closeExternalPlayer.addEventListener('click', closeExternalPlayerHandler);
-      
-      // Smooth scrolling for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth'
-            });
-          }
-        });
-      });
-    }
-
-    // Initialize video player controls
-    function initVideoPlayer() {
-      // Play/Pause button
-      playPauseBtn.addEventListener('click', togglePlayPause);
-      
-      // Mute button
-      muteBtn.addEventListener('click', toggleMute);
-      
-      // Volume slider
-      volumeSlider.addEventListener('input', updateVolume);
-      
-      // Progress bar
-      progressContainer.addEventListener('click', seek);
-      
-      // Time update
-      modalVideo.addEventListener('timeupdate', updateProgress);
-      
-      // Duration display
-      modalVideo.addEventListener('loadedmetadata', updateDuration);
-      
-      // Playback speed
-      speedBtn.addEventListener('click', toggleSpeedMenu);
-      
-      // Settings menu items
-      document.querySelectorAll('.settings-item').forEach(item => {
-        item.addEventListener('click', function() {
-          const speed = parseFloat(this.getAttribute('data-speed'));
-          setPlaybackSpeed(speed);
-          
-          // Update active state
-          document.querySelectorAll('.settings-item').forEach(i => i.classList.remove('active'));
-          this.classList.add('active');
-          
-          // Close menu
-          settingsMenu.classList.remove('active');
-        });
-      });
-      
-      // Fullscreen button
-      fullscreenBtn.addEventListener('click', toggleFullscreen);
-      
-      // Close settings menu when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!settingsBtn.contains(e.target) && !settingsMenu.contains(e.target)) {
-          settingsMenu.classList.remove('active');
-        }
-      });
-      
-      // Keyboard shortcuts
-      document.addEventListener('keydown', function(e) {
-        if (!playbackModal.classList.contains('hidden')) {
-          // Space for play/pause
-          if (e.code === 'Space') {
-            e.preventDefault();
-            togglePlayPause();
-          }
-          
-          // M for mute
-          if (e.code === 'KeyM') {
-            e.preventDefault();
-            toggleMute();
-          }
-          
-          // F for fullscreen
-          if (e.code === 'KeyF') {
-            e.preventDefault();
-            toggleFullscreen();
-          }
-          
-          // Left/Right arrows for seeking
-          if (e.code === 'ArrowLeft') {
-            e.preventDefault();
-            seekRelative(-5);
-          }
-          
-          if (e.code === 'ArrowRight') {
-            e.preventDefault();
-            seekRelative(5);
-          }
-          
-          // Up/Down arrows for volume
-          if (e.code === 'ArrowUp') {
-            e.preventDefault();
-            increaseVolume();
-          }
-          
-          if (e.code === 'ArrowDown') {
-            e.preventDefault();
-            decreaseVolume();
-          }
-        }
-      });
-    }
-
-    // Open the episode modal (for MP4 files)
-    function openModal(episode, season, episodeNumber) {
-      modalTitle.textContent = episode.title;
-      modalDescription.textContent = episode.description;
-      seasonNum.textContent = season;
-      episodeNum.textContent = episodeNumber;
-      episodeRuntime.textContent = episode.runtime;
-      episodeRating.textContent = episode.rating;
-      episodeCast.textContent = episode.cast;
-
-      modalVideo.src = episode.video;
-      modalVideo.poster = episode.image;
-      modalVideo.load();
-      playbackModal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-
-      // Reset player state
-      resetPlayerState();
-
-      // Try to autoplay (may be blocked by browser)
-      modalVideo.play().catch(() => {
-        console.warn('Autoplay blocked. Please click Play.');
-      });
-
-      playbackModal.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Open external player (for M3U8 and TXT files)
-    function openExternalPlayer(videoUrl, episode, season, episodeNumber) {
-      // Set the iframe source to player.html with the video URL as a parameter
-      const playerUrl = `player.html?video=${encodeURIComponent(videoUrl)}&title=${encodeURIComponent(episode.title)}&season=${season}&episode=${episodeNumber}`;
-      externalPlayerIframe.src = playerUrl;
-      
-      // Show the external player container
-      externalPlayerContainer.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
-
-    // Close external player
-    function closeExternalPlayerHandler() {
-      externalPlayerContainer.style.display = 'none';
-      externalPlayerIframe.src = '';
-      document.body.style.overflow = '';
-    }
-
-    // Reset player state when opening a new video
-    function resetPlayerState() {
-      // Reset play/pause button
-      playIcon.classList.remove('hidden');
-      pauseIcon.classList.add('hidden');
-      
-      // Reset volume
-      modalVideo.volume = 1;
-      volumeSlider.value = 1;
-      volumeOnIcon.classList.remove('hidden');
-      volumeOffIcon.classList.add('hidden');
-      
-      // Reset playback speed
-      modalVideo.playbackRate = 1;
-      speedDisplay.textContent = '1x';
-      
-      // Reset progress bar
-      progressBar.style.width = '0%';
-      currentTimeDisplay.textContent = '00:00';
-      
-      // Close settings menu
-      settingsMenu.classList.remove('active');
-    }
-
-    // Close the episode modal
     function closeModalHandler() {
-      // Pause video when closing modal
-      modalVideo.pause();
+      const videoEl = document.getElementById('modal-video');
+      if (currentHls) { try { currentHls.destroy(); } catch (e) {} currentHls = null; }
+      if (videoEl) { try { videoEl.pause(); } catch(e) {} try { videoEl.removeAttribute('src'); videoEl.load(); } catch(e) {} }
+      resetPlayerContainer();
       playbackModal.classList.add('hidden');
       document.body.style.overflow = '';
+      currentMovieIndex = null;
+      playBtn.innerHTML = '<i class="fas fa-play mr-2"></i> Play';
+      progressBarFill.style.width = '0%';
     }
 
-    // Play episode handler
-    function playEpisodeHandler() {
-      if (modalVideo.paused) {
-        modalVideo.play().then(() => {
-          playIcon.classList.add('hidden');
-          pauseIcon.classList.remove('hidden');
-          playEpisodeBtn.innerHTML = '<i class="fas fa-pause mr-2"></i> PAUSE EPISODE';
-        }).catch(() => {
-          alert('Playback blocked. Please click play on the video.');
+    function playInModal(title, url, movieObj) {
+      currentMovieIndex = movies.indexOf(movieObj);
+      modalTitle.textContent = movieObj.title;
+      modalDescription.textContent = movieObj.description || '';
+      episodeNum.textContent = `S${movieObj.season} • E${movieObj.episode}`;
+      modalDuration.textContent = movieObj.duration || '';
+      watchlistCheckbox.checked = !!movieObj.inWatchlist;
+      progressBarFill.style.width = '0%';
+      resetPlayerContainer();
+
+      if (!url) {
+        modalTitle.textContent = title + ' — No playable URL provided';
+        playbackModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        return;
+      }
+
+      // iframe hosts
+      if (url.includes('streamtape.com') || url.includes('openload') || url.includes('dood')) {
+        modalPlayer.innerHTML = `<iframe src="${url}" width="100%" height="100%" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>`;
+        playbackModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        loadingSpinner.classList.add('hidden');
+        return;
+      }
+
+      // YouTube
+      if (isYouTube(url)) {
+        let embedUrl = url;
+        try {
+          if (url.includes('watch') && url.includes('v=')) {
+            const vid = new URLSearchParams(url.split('?')[1]).get('v');
+            if (vid) embedUrl = `https://www.youtube.com/embed/${vid}`;
+          } else if (url.includes('youtu.be/')) {
+            const parts = url.split('youtu.be/');
+            if (parts[1]) {
+              const vid = parts[1].split(/[?&]/)[0];
+              embedUrl = `https://www.youtube.com/embed/${vid}`;
+            }
+          }
+        } catch(e){}
+        modalPlayer.innerHTML = `<iframe src="${embedUrl}?autoplay=1&modestbranding=1&rel=0" width="100%" height="100%" allowfullscreen allow="autoplay; encrypted-media" frameborder="0"></iframe>`;
+        playbackModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        loadingSpinner.classList.add('hidden');
+        return;
+      }
+
+      const videoEl = document.getElementById('modal-video');
+
+      // HLS
+      if (isHls(url)) {
+        if (window.Hls && Hls.isSupported()) {
+          currentHls = new Hls();
+          currentHls.loadSource(url);
+          currentHls.attachMedia(videoEl);
+          currentHls.on(Hls.Events.MANIFEST_PARSED, () => {
+            playbackModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            loadingSpinner.classList.add('hidden');
+            videoEl.play().catch(()=>{});
+          });
+        } else {
+          videoEl.src = url;
+          playbackModal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+          loadingSpinner.classList.add('hidden');
+          videoEl.play().catch(()=>{});
+        }
+        return;
+      }
+
+      // MP4
+      if (isMP4(url)) {
+        videoEl.src = url;
+        playbackModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        loadingSpinner.classList.add('hidden');
+        videoEl.play().catch(()=>{});
+        return;
+      }
+
+      // Fallback
+      loadingSpinner.classList.add('hidden');
+      window.location.href = `player.html?title=${encodeURIComponent(title)}&video=${encodeURIComponent(url)}`;
+    }
+
+    function attachVideoListeners() {
+      const videoEl = document.getElementById('modal-video');
+      if (!videoEl) return;
+      videoEl.removeEventListener('timeupdate', videoTimeUpdateHandler);
+      videoEl.addEventListener('timeupdate', videoTimeUpdateHandler);
+      videoEl.removeEventListener('ended', videoEndedHandler);
+      videoEl.addEventListener('ended', videoEndedHandler);
+    }
+    function videoTimeUpdateHandler() {
+      const videoEl = document.getElementById('modal-video');
+      if (!videoEl || !videoEl.duration) return;
+      const progress = (videoEl.currentTime / videoEl.duration) * 100;
+      progressBarFill.style.width = progress + '%';
+    }
+    function videoEndedHandler() {
+      playBtn.innerHTML = '<i class="fas fa-redo mr-2"></i> Replay';
+    }
+
+    /* renderMovies: creates the episode cards from a list */
+    function renderMovies(list) {
+      container.innerHTML = '';
+      list.forEach((movie, index) => {
+        const card = document.createElement('div');
+        card.className = 'movie-card fade-in delay-2 glow-effect rounded-xl overflow-hidden cursor-pointer';
+        card.innerHTML = `
+          <div class="relative group overflow-hidden rounded-xl">
+            <img src="${movie.image}" alt="${movie.title}" class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <div>
+                <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
+                <p class="text-gray-300 text-sm">${movie.duration || ''}</p>
+              </div>
+            </div>
+            <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-[#9ad34d] rounded-full w-10 h-10 flex items-center justify-center">
+              <i class="fas fa-play"></i>
+            </div>
+            <div class="absolute top-3 left-3 flex items-center bg-black/70 px-2 py-1 rounded-full">
+              <i class="fas fa-star text-[#9ad34d] text-xs mr-1"></i>
+              <span class="text-white text-xs">${movie.rating || ''}</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <h3 class="text-white font-medium">${movie.title}</h3>
+            <div class="flex items-center text-gray-400 text-sm mt-1">
+              <span>S${movie.season} • E${movie.episode}</span>
+              <span class="mx-2">•</span>
+              <span>${movie.duration || ''}</span>
+            </div>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          loadingSpinner.classList.remove('hidden');
+          playInModal(movie.title, movie.video, movie);
         });
-      } else {
-        modalVideo.pause();
-        playIcon.classList.remove('hidden');
-        pauseIcon.classList.add('hidden');
-        playEpisodeBtn.innerHTML = '<i class="fas fa-play mr-2"></i> PLAY EPISODE';
-      }
+        container.appendChild(card);
+      });
     }
 
-    // Toggle play/pause
-    function togglePlayPause() {
-      if (modalVideo.paused) {
-        modalVideo.play();
-        playIcon.classList.add('hidden');
-        pauseIcon.classList.remove('hidden');
-      } else {
-        modalVideo.pause();
-        playIcon.classList.remove('hidden');
-        pauseIcon.classList.add('hidden');
-      }
-    }
+    /* ------------------------
+       Init page (w/ season filtering wired up)
+       ------------------------ */
+    function initPage() {
+      // Default: render all
+      renderMovies(movies);
 
-    // Toggle mute
-    function toggleMute() {
-      modalVideo.muted = !modalVideo.muted;
-      if (modalVideo.muted) {
-        volumeOnIcon.classList.add('hidden');
-        volumeOffIcon.classList.remove('hidden');
-        volumeSlider.value = 0;
-      } else {
-        volumeOnIcon.classList.remove('hidden');
-        volumeOffIcon.classList.add('hidden');
-        volumeSlider.value = modalVideo.volume;
-      }
-    }
-
-    // Update volume
-    function updateVolume() {
-      modalVideo.volume = volumeSlider.value;
-      modalVideo.muted = false;
-      
-      if (modalVideo.volume === 0) {
-        volumeOnIcon.classList.add('hidden');
-        volumeOffIcon.classList.remove('hidden');
-      } else {
-        volumeOnIcon.classList.remove('hidden');
-        volumeOffIcon.classList.add('hidden');
-      }
-    }
-
-    // Increase volume
-    function increaseVolume() {
-      modalVideo.volume = Math.min(1, modalVideo.volume + 0.1);
-      volumeSlider.value = modalVideo.volume;
-      modalVideo.muted = false;
-      volumeOnIcon.classList.remove('hidden');
-      volumeOffIcon.classList.add('hidden');
-    }
-
-    // Decrease volume
-    function decreaseVolume() {
-      modalVideo.volume = Math.max(0, modalVideo.volume - 0.1);
-      volumeSlider.value = modalVideo.volume;
-      
-      if (modalVideo.volume === 0) {
-        modalVideo.muted = true;
-        volumeOnIcon.classList.add('hidden');
-        volumeOffIcon.classList.remove('hidden');
-      } else {
-        volumeOnIcon.classList.remove('hidden');
-        volumeOffIcon.classList.add('hidden');
-      }
-    }
-
-    // Update progress bar
-    function updateProgress() {
-      const percent = (modalVideo.currentTime / modalVideo.duration) * 100;
-      progressBar.style.width = `${percent}%`;
-      
-      // Update time display
-      currentTimeDisplay.textContent = formatTime(modalVideo.currentTime);
-    }
-
-    // Update duration display
-    function updateDuration() {
-      durationDisplay.textContent = formatTime(modalVideo.duration);
-    }
-
-    // Format time (seconds to MM:SS)
-    function formatTime(seconds) {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = Math.floor(seconds % 60);
-      return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-    }
-
-    // Seek to position
-    function seek(e) {
-      const rect = progressContainer.getBoundingClientRect();
-      const pos = (e.clientX - rect.left) / rect.width;
-      modalVideo.currentTime = pos * modalVideo.duration;
-    }
-
-    // Seek relative to current position
-    function seekRelative(seconds) {
-      modalVideo.currentTime += seconds;
-    }
-
-    // Toggle speed menu
-    function toggleSpeedMenu() {
-      settingsMenu.classList.toggle('active');
-    }
-
-    // Set playback speed
-    function setPlaybackSpeed(speed) {
-      modalVideo.playbackRate = speed;
-      speedDisplay.textContent = `${speed}x`;
-    }
-
-    // Toggle fullscreen
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        document.querySelector('.video-container').requestFullscreen().catch(err => {
-          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      // Filter buttons (visual only as before)
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelector('.filter-btn.active').classList.remove('active', 'bg-[#9ad34d]', 'text-black');
+          this.classList.add('active', 'bg-[#9ad34d]', 'text-black');
         });
-      } else {
-        document.exitFullscreen();
-      }
+      });
+
+      // Season buttons: now filter content (preserve active styling)
+      seasonBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // remove active classes on season buttons
+          seasonBtns.forEach(b => b.classList.remove('active', 'bg-[#9ad34d]', 'text-black'));
+          // set this as active
+          this.classList.add('active', 'bg-[#9ad34d]', 'text-black');
+
+          const season = this.dataset.season;
+          let filtered;
+          if (!season || season === 'all') filtered = movies;
+          else filtered = movies.filter(m => String(m.season) === String(season));
+          renderMovies(filtered);
+        });
+      });
+
+      // Watchlist initial render
+      updateWatchlist();
     }
 
-    // Toggle mobile menu
-    function toggleMobileMenu() {
-      console.log('Mobile menu toggled');
-      // Implement mobile menu functionality here
+    /* Watchlist functions (preserved) */
+    function updateWatchlist() {
+      watchlistItems.innerHTML = '';
+      const watchlistMovies = movies.filter(m => m.inWatchlist);
+      if (watchlistMovies.length === 0) {
+        watchlistItems.innerHTML = '<div class="px-4 py-3 text-center text-gray-400">Your watchlist is empty</div>';
+        return;
+      }
+      watchlistMovies.forEach((movie, idx) => {
+        const index = movies.indexOf(movie);
+        const item = document.createElement('div');
+        item.className = 'px-4 py-3 hover:bg-gray-800 transition cursor-pointer flex items-center justify-between';
+        item.innerHTML = `
+          <div class="flex items-center">
+            <span class="text-[#9ad34d] text-sm mr-2">${idx + 1}.</span>
+            <span class="text-white text-sm truncate">${movie.title}</span>
+          </div>
+          <button class="remove-from-watchlist text-gray-400 hover:text-red-500" data-index="${index}">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        item.querySelector('.remove-from-watchlist').addEventListener('click', (e) => {
+          e.stopPropagation();
+          removeFromWatchlist(index);
+        });
+        item.addEventListener('click', () => {
+          loadingSpinner.classList.remove('hidden');
+          playInModal(movie.title, movie.video, movie);
+          watchlistDropdown.classList.add('hidden');
+        });
+        watchlistItems.appendChild(item);
+      });
     }
+    function addToWatchlist(index) { movies[index].inWatchlist = true; updateWatchlist(); }
+    function removeFromWatchlist(index) { movies[index].inWatchlist = false; updateWatchlist(); }
+
+    /* preserved UI event wiring (search, theme, watchlist, modal controls) */
+    searchBtn.addEventListener('click', () => {
+      searchBar.classList.toggle('hidden');
+      watchlistDropdown.classList.add('hidden');
+    });
+
+    watchlistBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      watchlistDropdown.classList.toggle('hidden');
+      searchBar.classList.add('hidden');
+    });
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('bg-gray-100');
+      document.body.classList.toggle('text-gray-900');
+      document.body.classList.toggle('bg-black');
+      document.body.classList.toggle('text-gray-100');
+      const icon = themeToggle.querySelector('i');
+      if (document.body.classList.contains('bg-black')) {
+        icon.classList.remove('fa-sun'); icon.classList.add('fa-moon');
+      } else { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
+    });
+
+    closeModal.addEventListener('click', closeModalHandler);
+    playbackModal.addEventListener('click', function(e) { if (e.target === this) closeModalHandler(); });
+
+    playBtn.addEventListener('click', () => {
+      const videoEl = document.getElementById('modal-video');
+      if (!videoEl) return;
+      if (videoEl.paused) { videoEl.play(); playBtn.innerHTML = '<i class="fas fa-pause mr-2"></i> Pause'; }
+      else { videoEl.pause(); playBtn.innerHTML = '<i class="fas fa-play mr-2"></i> Play'; }
+    });
+
+    watchlistCheckbox.addEventListener('change', function() {
+      if (currentMovieIndex == null) return;
+      if (this.checked) addToWatchlist(currentMovieIndex); else removeFromWatchlist(currentMovieIndex);
+    });
+
+    scrollDownBtn.addEventListener('click', () => {
+      window.scrollTo({ top: document.querySelector('#movies').offsetTop - 20, behavior: 'smooth' });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!watchlistBtn.contains(e.target) && !watchlistDropdown.contains(e.target)) watchlistDropdown.classList.add('hidden');
+      if (!searchBtn.contains(e.target) && !searchBar.contains(e.target)) searchBar.classList.add('hidden');
+    });
+
+    // Global search at top (filters current season / all)
+    globalSearch && globalSearch.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      const activeSeasonBtn = document.querySelector('.season-btn.active');
+      const season = activeSeasonBtn ? activeSeasonBtn.dataset.season : 'all';
+      let list = season === 'all' ? movies : movies.filter(m => String(m.season) === String(season));
+      if (q) list = list.filter(m => m.title.toLowerCase().includes(q) || (m.description && m.description.toLowerCase().includes(q)));
+      renderMovies(list);
+    });
+
+    // attach video listeners initially
+    attachVideoListeners();
+
+    // kickoff
+    window.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
 </html>
